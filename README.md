@@ -4,17 +4,6 @@ This application was generated using JHipster 7.1.0, you can find documentation 
 
 ## Getting Started
 ## Building for development environment
-
-### Docker:
-1. Requirements:
-* Docker >= 17.12
-
-2. Run following command:
-```
-docker-compose up -d --build
-```
-
-### Manual:
 1. Requirements:
 * JDK 11.0.13
 * MySQL 8
