@@ -1,0 +1,130 @@
+
+spring:
+  # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
+  #active: testcontainers
+  application:
+    name: Review 360 application
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:tf7;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    name:
+    username:
+    password:
+    hikari:
+      auto-commit: false
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
+  jpa:
+    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.hbm2ddl.auto: validate
+      hibernate.jdbc.time_zone: UTC
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+  liquibase:
+    contexts: test
+  mail:
+    host: localhost
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: i18n/messages
+  task:
+    execution:
+      thread-name-prefix: tf7-task-
+      pool:
+        core-size: 1
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: tf7-scheduling-
+      pool:
+        size: 1
+  thymeleaf:
+    mode: HTML
+
+server:
+  port: 10344
+  address: localhost
+
+
+jhipster:
+  clientApp:
+    name: 'tf7App'
+  logging:
+    # To test json console appender
+    use-json-format: false
+    logstash:
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
+  mail:
+    from: test@localhost
+    base-url: http://127.0.0.1:8080
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: YjFjNDJiYzkzYzYwMzI3YzRkZWUwMDMwNGI3ZTAzM2IzNjViZDg1YTU1OTA1Nzg3YTkyZjkwNGNhYjA0MmMzYTkwNjcyOGE1MzA5OWM5NDJkY2UyYTMyOGM2ZTczNWVjNTk5NzFmNjRkNGFmMDk1NjY2M2NhZmI0NDg2MTllN2Y=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+
+logbook:
+  filter:
+    enabled: true
+  format:
+    style: splunk
+  include:
+    - /api/**
+
+sentry:
+  enabled: false
+  level: DEBUG
+  dsn: test
+
+slack:
+  enabled: false
+  incoming-webhook-url: https://slack.webhook.example.com
+
+application:
+  service-name: Review 360 application
+  console-url: https://tf7.test.nals.vn
+  timezone: Asia/Tokyo
+  access-token-validity-in-seconds: 3600 # 1 hour
+  refresh-token-validity-in-seconds: 604800 # 7 day
+  activation-key-limit-number: 5
+  activation-expired-time: 24 # Hours
+  activation-key-limit-time-amount: 1 # Hours
+  reset-password-key-limit-number: 5
+  reset-password-expired-time: 60 # Minutes
+  reset-password-key-limit-time-amount: 60 # Minutes
+  authentication:
+    limit-try-number: 10
+    locked-time-in-minutes: 30
+  sensitive-keywords:
+    - access_token
+    - refresh_token
+    - password
+  file-upload:
+    max-size-allow: 10240
+    allow-extensions: png, jpg, jpeg, gif
+  amazon-s3:
+    access-key: test
+    secret-key: test
+    region: test
+    bucket-name: test
+    temp-dir: /tmp
+    working-dir: /working
+    use-iam-role: false

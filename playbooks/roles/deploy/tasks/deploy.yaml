@@ -1,0 +1,56 @@
+---
+- name: Clone the code repository to the app directory.
+  git:
+    repo: "{{ git_repo }}"
+    dest: "{{ application_path }}"
+    version: "{{ branch }}"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ user_home_folder }}/.ssh/id_rsa"
+    ssh_opts: "-o StrictHostKeyChecking=no"
+  register: git
+
+# - name: prepare environment file
+#   template:
+#     src: env.j2
+#     dest: "{{ env_path }}/.env"
+
+- name: gradlew clean check
+  command: "./gradlew clean check"
+  args:
+    chdir: "{{ application_path }}"
+
+- name: Build source by gradlew
+  command: "./gradlew clean build -x test"
+  args:
+    chdir: "{{ application_path }}"
+
+- name: Remove old jar
+  file:
+    path: "{{ jar_file_path }}/tf7-{{ env }}.jar"
+    state: absent
+
+- name: Copy new jar
+  shell:
+    cmd: "cp *.jar {{ jar_file_path }}/tf7-{{ env }}.jar"
+    chdir: "{{ application_build_path }}"
+
+- name: Run jar service
+  systemd:
+    name: build-{{ env }}.service
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Reload nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Check port nginx is running
+  wait_for:
+    port: "80"
+    state: started
+    delay: 3

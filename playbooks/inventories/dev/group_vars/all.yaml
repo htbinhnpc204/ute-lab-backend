@@ -1,0 +1,11 @@
+---
+env: "dev"
+git_repo: "git clone git@bitbucket.org:nal-solutions/tf7-be-team-1.git"
+branch: "develop"
+repos: "tf7-be-team-1"
+username: "dev"
+user_home_folder: "/home/{{ username }}/{{ env }}/{{ repos }}"
+num_instance: "1"
+
+environments:
+  # ENV_VARIABLE: "server_only_variable"

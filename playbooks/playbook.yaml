@@ -1,0 +1,5 @@
+---
+- hosts: tf7-dev-servers
+  gather_facts: true
+  roles:
+    - deploy

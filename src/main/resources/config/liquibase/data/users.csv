@@ -1,0 +1,2 @@
+id;name;email;lang_key;username;password_hash;activated;created_by;last_modified_by
+1;Admin;admin@localhost.com;en;admin@localhost.com;$2a$12$3.4DPOEZ1oNKCkcFkTffXOvgG/V1q84ipfdY1AJC/qV3X7D2co6pK;true;admin@localhost.com;admin@localhost.com

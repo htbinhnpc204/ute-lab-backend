@@ -1,0 +1,136 @@
+
+logging:
+  file:
+    path: ${LOG_PATH:./logs}
+    name: tf7
+  level:
+    ROOT: INFO
+    com.nals.tf7: INFO
+    tech.jhipster: INFO
+    org.zalando.logbook: TRACE
+  config: classpath:logback-spring-file-appender.xml
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: false
+
+spring:
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Ho_Chi_Minh&createDatabaseIfNotExist=true
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  jpa:
+    show-sql: false
+    properties.hibernate.format_sql: false
+  liquibase:
+    contexts: prod
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASS}
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: ${EMAIL_HOST}
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
+  thymeleaf:
+    cache: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+server:
+  port: 8080
+  shutdown: graceful
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    min-response-size: 1024
+
+
+jhipster:
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: ${JWT_BASE64_SECRET}
+  http:
+    cache: # Used by the CachingHttpHeadersFilter
+      timeToLiveInDays: 1461
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 1000 # Number of objects in each cache entry
+  # CORS is only enabled by default with the "dev" profile
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+    allow-credentials: true
+    max-age: 1800
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    from: ${EMAIL_FROM}
+  logging:
+    use-json-format: false # By default, logs are not in Json format
+    logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+      enabled: false
+
+logbook:
+  filter:
+    enabled: true
+  format:
+    style: splunk
+  include:
+    - /api/**
+
+application:
+  service-name: Review 360 application
+  console-url: ${CONSOLE_URL}
+  timezone: Asia/Tokyo
+  access-token-validity-in-seconds: ${ACCESS_TOKEN_VALIDITY_IN_SECONDS:3600} # 1 hour
+  refresh-token-validity-in-seconds: ${REFRESH_TOKEN_VALIDITY_IN_SECONDS:2592000000} # 30 day
+  activation-key-limit-number: ${ACTIVATION_KEY_LIMIT_NUMBER:5}
+  activation-expired-time: ${ACTIVATION_EXPIRED_TIME:24} # Hours
+  activation-key-limit-time-amount: ${ACTIVATION_KEY_LIMIT_TIME_AMOUNT:1} # Hours
+  reset-password-key-limit-number: ${RESET_PASSWORD_KEY_LIMIT_NUMBER:5}
+  reset-password-expired-time: ${RESET_PASSWORD_EXPIRED_TIME:60} # Minutes
+  reset-password-key-limit-time-amount: ${RESET_PASSWORD_KEY_LIMIT_TIME_AMOUNT:60} # Minutes
+  authentication:
+    limit-try-number: ${LIMIT_TRY_NUMBER:10}
+    locked-time-in-minutes: ${LOCKED_TIME_IN_MINUTES:30}
+  sensitive-keywords:
+    - access_token
+    - refresh_token
+    - password
+  file-upload:
+    max-size-allow: 5120
+    allow-extensions: png, jpg, jpeg, gif
+amazon-s3:
+    access-key: ${AWS_S3_ACCESS_KEY:changeit}
+    secret-key: ${AWS_S3_SECRET_KEY:changeit}
+    region: ${AWS_S3_REGION:us-east-2}
+    bucket-name: ${AWS_S3_BUCKET_NAME:tf7-dev}
+    temp-dir: /tmp
+    working-dir: /working
+    use-iam-role: ${AWS_S3_USE_AIM_ROLE:false}

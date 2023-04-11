@@ -1,0 +1,315 @@
+{
+    "info": {
+        "_postman_id": "5c9e2aeb-1e26-4638-9c71-9c9f9080b0c2",
+        "name": "Review 360",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Login",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let response = pm.response.json()['data'];",
+                            "let testing_access_token = response['access_token'];",
+                            "console.log(testing_access_token);",
+                            "pm.environment.set(\"token\", testing_access_token);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\": \"admin@localhost.com\",\n    \"password\": \"admin!@#321\",\n    \"remember_me\": false\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{local}}/api/v1/auth/login",
+                    "host": [
+                        "{{local}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "auth",
+                        "login"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get profile",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "RW-Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "default"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/v1/me",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "me"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Logout",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "RW-Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "default"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/v1/auth/logout",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "auth",
+                        "logout"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Reset password",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let response = pm.response.json()['record'];",
+                            "let testing_access_token = response['access_token'];",
+                            "console.log(testing_access_token);",
+                            "pm.environment.set(\"token\", testing_access_token);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"email\": \"admin@localhost.com\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:8080/api/v1/users/reset-password/init",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "users",
+                        "reset-password",
+                        "init"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Reset password finish",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let response = pm.response.json()['record'];",
+                            "let testing_access_token = response['access_token'];",
+                            "console.log(testing_access_token);",
+                            "pm.environment.set(\"token\", testing_access_token);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"reset_key\": \"a3JJpqE8XxatPLRKTJPf\",\n    \"password\": \"admin!@#321\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:8080/api/v1/users/reset-password/finish",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "users",
+                        "reset-password",
+                        "finish"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Refresh token",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let response = pm.response.json()['record'];",
+                            "let testing_access_token = response['access_token'];",
+                            "console.log(testing_access_token);",
+                            "pm.environment.set(\"token\", testing_access_token);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin!@#321\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:8080/api/v1/auth/refresh-token?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJORkx1N0pDelExdG10eFhyZWtFWlRjVTZCbnViREZNVmtWdHEzdmlZeDlaRVE2eFg0TUp6T3lJS2ZueTBqSUNkU2Q0cnFnb1NwVW1Da2V6RiIsInN1YiI6ImFkbWluQGxvY2FsaG9zdC5jb20iLCJpYXQiOjE2NDU3MTM0NDEsIm5iZiI6MTY0NTcxMzQ0MSwiZXhwIjoxNjQ2MzE4MjQxLCJyb2xlcyI6IlJPTEVfVVNFUixST0xFX0FETUlOIiwicGVybXMiOiJSRUFELFdSSVRFIiwidXNlcl9pZCI6MiwiYWNjZXNzX3Rva2VuX2lkIjoiQTdGQjRMSFFIMEFpWmlIZmtJNjNmazgzSlZsNU1IemVleWdvY3ZpTEVPNHhpYXpDTkpJN2lGNFFZUkJjakNBbzZ5ZUJ6eEFFTG9JSkJhZ2sifQ.VsEPtqW9GuVHyx397d11LXS0ym754ruWrt6l0A0PkgFTjxZz6yijdUtJyJKaGvQcMxPnjagH1MmLfF4vPM4dOw",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "auth",
+                        "refresh-token"
+                    ],
+                    "query": [
+                        {
+                            "key": "token",
+                            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJORkx1N0pDelExdG10eFhyZWtFWlRjVTZCbnViREZNVmtWdHEzdmlZeDlaRVE2eFg0TUp6T3lJS2ZueTBqSUNkU2Q0cnFnb1NwVW1Da2V6RiIsInN1YiI6ImFkbWluQGxvY2FsaG9zdC5jb20iLCJpYXQiOjE2NDU3MTM0NDEsIm5iZiI6MTY0NTcxMzQ0MSwiZXhwIjoxNjQ2MzE4MjQxLCJyb2xlcyI6IlJPTEVfVVNFUixST0xFX0FETUlOIiwicGVybXMiOiJSRUFELFdSSVRFIiwidXNlcl9pZCI6MiwiYWNjZXNzX3Rva2VuX2lkIjoiQTdGQjRMSFFIMEFpWmlIZmtJNjNmazgzSlZsNU1IemVleWdvY3ZpTEVPNHhpYXpDTkpJN2lGNFFZUkJjakNBbzZ5ZUJ6eEFFTG9JSkJhZ2sifQ.VsEPtqW9GuVHyx397d11LXS0ym754ruWrt6l0A0PkgFTjxZz6yijdUtJyJKaGvQcMxPnjagH1MmLfF4vPM4dOw"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Upload media",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "RW-Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "default"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "file",
+                            "type": "file",
+                            "src": []
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "http://localhost:8080/api/v1/media",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "media"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete media",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "RW-Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "default"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/v1/auth/logout",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "auth",
+                        "logout"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}

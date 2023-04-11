@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="autoIncrement" value="true"/>
+    <property name="now" value="now(3)"/>
+
+    <changeSet id="00000000000001" author="jhipster" context="test">
+        <createTable tableName="date_time_wrapper">
+            <column autoIncrement="${autoIncrement}" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="date_time_wrapperPK"/>
+            </column>
+            <column name="instant" type="timestamp"/>
+            <column name="local_date_time" type="timestamp"/>
+            <column name="offset_date_time" type="timestamp"/>
+            <column name="zoned_date_time" type="timestamp"/>
+            <column name="local_time" type="time"/>
+            <column name="offset_time" type="time"/>
+            <column name="local_date" type="date"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000002" author="thamnv">
+        <createTable tableName="persistent_audit_event">
+            <column name="event_id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="principal" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_date" type="timestamp"/>
+            <column name="event_type" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="persistent_audit_evt_data">
+            <column name="event_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey columnNames="event_id, name" tableName="persistent_audit_evt_data"/>
+
+        <createIndex indexName="idx_persistent_audit_event"
+                     tableName="persistent_audit_event"
+                     unique="false">
+            <column name="principal" type="varchar(255)"/>
+            <column name="event_date" type="timestamp"/>
+        </createIndex>
+
+        <createIndex indexName="idx_persistent_audit_evt_data"
+                     tableName="persistent_audit_evt_data"
+                     unique="false">
+            <column name="event_id" type="bigint"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="event_id"
+                                 baseTableName="persistent_audit_evt_data"
+                                 constraintName="fk_evt_pers_audit_evt_data"
+                                 referencedColumnNames="event_id"
+                                 referencedTableName="persistent_audit_event"/>
+    </changeSet>
+
+
+    <changeSet id="00000000000003" author="thamnv">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="google_id" type="varchar(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_users_username"/>
+            </column>
+            <column name="password_hash" type="varchar(60)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="image_name" type="varchar(500)"/>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dob" type="timestamp(3)"/>
+            <column name="phone" type="varchar(255)"/>
+            <column name="address" type="varchar(500)"/>
+            <column name="gender" type="varchar(20)"/>
+            <column name="lang_key" type="varchar(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activated" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="varchar(500)"/>
+            <column name="reset_key" type="varchar(500)"/>
+            <column name="remain_try_number" type="int"/>
+            <column name="locked_date" type="timestamp(3)"/>
+            <column name="last_login_date" type="timestamp(3)"/>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000004" author="thamnv">
+        <createTable tableName="roles">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000005" author="thamnv">
+        <createTable tableName="permissions">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000006" author="thamnv">
+        <createTable tableName="user_roles">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000007" author="thamnv">
+        <createTable tableName="role_permissions">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000008" author="thamnv">
+        <createTable tableName="media">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="source_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_key" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+
+        <createIndex tableName="media" indexName="idx_media_source_id">
+            <column name="source_id" type="bigint"/>
+        </createIndex>
+        <createIndex tableName="media" indexName="idx_media_stored_key">
+            <column name="stored_key" type="varchar(255)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="00000000000009" author="thamnv" dbms="mysql">
+        <loadData file="config/liquibase/data/roles.csv"
+                  separator=";"
+                  tableName="roles"/>
+        <loadData file="config/liquibase/data/permissions.csv"
+                  separator=";"
+                  tableName="permissions"/>
+        <loadData file="config/liquibase/data/role_permissions.csv"
+                  separator=";"
+                  tableName="role_permissions"/>
+        <loadData file="config/liquibase/data/users.csv"
+                  separator=";"
+                  tableName="users"/>
+        <loadData file="config/liquibase/data/user_roles.csv"
+                  separator=";"
+                  tableName="user_roles"/>
+    </changeSet>
+</databaseChangeLog>

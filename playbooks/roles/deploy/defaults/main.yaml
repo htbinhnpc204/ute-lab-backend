@@ -1,0 +1,5 @@
+---
+application_path: "/home/dev/{{ env }}/{{ repos }}"
+application_build_path: "/home/dev/{{ env }}/{{ repos }}/build/libs"
+jar_file_path: "/home/dev/jar-file/{{ env }}"
+env_path: "/home/dev"
