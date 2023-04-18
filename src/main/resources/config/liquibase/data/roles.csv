@@ -1,2 +1,6 @@
 id;name;created_by;last_modified_by
 1;ROLE_ADMIN;admin@localhost.com;admin@localhost.com
+2;ROLE_BOD;admin@localhost.com;admin@localhost.com
+3;ROLE_ACCOUNT_LEADER;admin@localhost.com;admin@localhost.com
+4;ROLE_PMO;admin@localhost.com;admin@localhost.com
+5;ROLE_MEMBER;admin@localhost.com;admin@localhost.com

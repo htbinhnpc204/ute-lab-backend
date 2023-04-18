@@ -289,17 +289,23 @@
     </changeSet>
 
     <changeSet id="20230418165800-10" author="thamnv" dbms="mysql">
-        <loadData file="config/liquibase/data/roles.csv"
+        <loadData file="config/liquibase/data/groups.csv"
                   separator=";"
-                  tableName="roles"/>
+                  tableName="groups"/>
         <loadData file="config/liquibase/data/permissions.csv"
                   separator=";"
                   tableName="permissions"/>
+        <loadData file="config/liquibase/data/roles.csv"
+                  separator=";"
+                  tableName="roles"/>
         <loadData file="config/liquibase/data/role_permissions.csv"
                   separator=";"
                   tableName="role_permissions"/>
         <loadData file="config/liquibase/data/users.csv"
                   separator=";"
                   tableName="users"/>
+        <loadData file="config/liquibase/data/group_users.csv"
+                  separator=";"
+                  tableName="group_users"/>
     </changeSet>
 </databaseChangeLog>
