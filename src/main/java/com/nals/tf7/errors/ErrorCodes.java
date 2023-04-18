@@ -42,4 +42,5 @@ public final class ErrorCodes {
     public static final String AUTH_PROVIDER_NOT_FOUND = "RW-0606";
     public static final String MEDIA_NOT_FOUND = "RW-0607";
     public static final String STATUS_NOT_FOUND = "RW-0608";
+    public static final String GROUP_USER_ROLE_NOT_FOUND = "RW-0609";
 }

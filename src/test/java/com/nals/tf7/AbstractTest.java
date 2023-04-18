@@ -7,13 +7,11 @@ import com.nals.tf7.domain.Permission;
 import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.RolePermission;
 import com.nals.tf7.domain.User;
-import com.nals.tf7.domain.UserRole;
 import com.nals.tf7.errors.ExceptionTranslator;
 import com.nals.tf7.repository.PermissionRepository;
 import com.nals.tf7.repository.RolePermissionRepository;
 import com.nals.tf7.repository.RoleRepository;
 import com.nals.tf7.repository.UserRepository;
-import com.nals.tf7.repository.UserRoleRepository;
 import com.nals.tf7.security.DomainUserDetails;
 import com.nals.tf7.service.v1.FileService;
 import com.tobedevoured.modelcitizen.CreateModelException;
@@ -54,7 +52,7 @@ public class AbstractTest {
     public static final String ACCOUNT_PASSWORD = "tf7123#@!";
     public static final Long INVALID_ID = -1L;
     public static final Long CURRENT_USER_ID = 99L;
-    public static final String CURRENT_USER_USERNAME = "username";
+    public static final String CURRENT_USER_EMAIL = "user@nal.vn";
     private static final String DEFAULT_TIME_ZONE = "Asia/Ho_Chi_Minh";
     private static final String FILE_SERVICE = "fileService";
 
@@ -83,9 +81,6 @@ public class AbstractTest {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserRoleRepository userRoleRepository;
-
-    @Autowired
     private PermissionRepository permissionRepository;
 
     @Autowired
@@ -112,21 +107,13 @@ public class AbstractTest {
         zoneId = ZoneId.of(mockApplicationProperties.getTimezone());
     }
 
-    protected void createUserAndRoles(final String... roles)
+    protected void createUserAndRoles(final String role)
         throws CreateModelException {
         User user = createFakeModel(User.class);
         userRepository.save(user);
 
-        for (String role : roles) {
-            Long roleId = roleRepository.findByName(role)
-                                        .orElseGet(() -> roleRepository.save(Role.builder().name(role).build()))
-                                        .getId();
-
-            userRoleRepository.save(UserRole.builder()
-                                            .userId(user.getId())
-                                            .roleId(roleId)
-                                            .build());
-        }
+        roleRepository.findByName(role)
+                      .orElseGet(() -> roleRepository.save(Role.builder().name(role).build()));
     }
 
     protected void mockFileService(final Object bloc)
@@ -141,11 +128,6 @@ public class AbstractTest {
         Long roleId = roleRepository.findByName(role)
                                     .orElseGet(() -> roleRepository.save(Role.builder().name(role).build()))
                                     .getId();
-
-        userRoleRepository.save(UserRole.builder()
-                                        .userId(user.getId())
-                                        .roleId(roleId)
-                                        .build());
 
         for (String permission : permissions) {
             Long permissionId = permissionRepository.findByName(permission)
@@ -172,11 +154,6 @@ public class AbstractTest {
                                     .orElseGet(() -> roleRepository.save(Role.builder().name(role).build()))
                                     .getId();
 
-        userRoleRepository.save(UserRole.builder()
-                                        .userId(userId)
-                                        .roleId(roleId)
-                                        .build());
-
         for (String permission : permissions) {
             authorities.add(new SimpleGrantedAuthority(permission));
             Long permissionId = permissionRepository.findByName(permission)
@@ -191,7 +168,7 @@ public class AbstractTest {
         }
 
         DomainUserDetails principal = new DomainUserDetails(userId,
-                                                            user.getUsername(),
+                                                            user.getEmail(),
                                                             user.getPassword(),
                                                             roles, authorities);
 

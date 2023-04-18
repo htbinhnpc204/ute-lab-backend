@@ -32,13 +32,13 @@ public class DomainUserDetailsService
     private final PermissionRepository permissionRepository;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) {
-        log.info("Authenticating {}", username);
+    public UserDetails loadUserByUsername(final String email) {
+        log.info("Authenticating {}", email);
 
-        return userRepository.findOneByUsername(username)
+        return userRepository.findOneByEmail(email)
                              .map(this::createSpringSecurityUser)
                              .orElseThrow(() -> new UsernameNotFoundException(
-                                 "Account " + username + " was not found in the database"));
+                                 "Account " + email + " was not found in the database"));
     }
 
     private DomainUserDetails createSpringSecurityUser(final User user) {
@@ -62,7 +62,7 @@ public class DomainUserDetailsService
 
         return DomainUserDetails.builder()
                                 .id(user.getId())
-                                .username(user.getUsername())
+                                .username(user.getEmail())
                                 .password(user.getPassword())
                                 .roles(roles)
                                 .authorities(permissions)

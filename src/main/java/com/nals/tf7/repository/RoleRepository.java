@@ -16,7 +16,7 @@ public interface RoleRepository
     Optional<Role> findByName(String name);
 
     @Query("SELECT r"
-        + " FROM Role r JOIN UserRole ur ON ur.roleId = r.id"
-        + " WHERE ur.userId = :userId")
+        + " FROM Role r JOIN User u ON u.role.id = r.id"
+        + " WHERE u.id = :userId")
     Set<Role> fetchByUserId(@Param("userId") Long userId);
 }

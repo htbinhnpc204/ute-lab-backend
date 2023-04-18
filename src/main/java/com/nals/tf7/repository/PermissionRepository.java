@@ -18,7 +18,7 @@ public interface PermissionRepository
     @Query("SELECT DISTINCT p"
         + " FROM Permission p"
         + " JOIN RolePermission rp ON rp.permissionId = p.id"
-        + " JOIN UserRole ur ON ur.roleId = rp.roleId"
-        + " WHERE ur.userId = :userId")
+        + " JOIN User u ON u.role.id = rp.roleId"
+        + " WHERE u.id = :userId")
     Set<Permission> fetchByUserId(@Param("userId") Long userId);
 }

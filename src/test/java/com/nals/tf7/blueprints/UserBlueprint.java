@@ -30,14 +30,6 @@ public class UserBlueprint {
         }
     };
 
-    @Default
-    private FieldCallback<String> username = new FieldCallback<>() {
-        @Override
-        public String get(final Object referenceModel) {
-            return faker.internet().emailAddress();
-        }
-    };
-
     @Default(force = true)
     private boolean activated = true;
 
@@ -73,5 +65,5 @@ public class UserBlueprint {
     private String password = "$2a$10$MbuTII7CecKnw24JFb.jIutpbYnlFOn6h6ePRIoAxdlfCxCO2tAh2"; // encode ACCOUNT_PASSWORD
 
     @Default
-    private String imageName = String.format("%s.%s", faker.name().name(), "png");
+    private String avatar = String.format("%s.%s", faker.name().name(), "png");
 }
