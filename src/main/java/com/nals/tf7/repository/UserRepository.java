@@ -12,10 +12,10 @@ import java.util.Optional;
 public interface UserRepository
     extends JpaRepository<User, Long> {
 
-    Optional<User> findOneByUsername(String username);
+    Optional<User> findOneByEmail(String email);
 
     @Query("SELECT new User(u.id, u.name, u.email, u.phone, u.address, u.gender,"
-        + "                 u.dob, u.imageName)"
+        + "                 u.dob, u.avatar, u.role)"
         + " FROM User u"
         + " WHERE u.id = :id AND u.activated = TRUE")
     User getBasicInfoById(@Param("id") Long id);

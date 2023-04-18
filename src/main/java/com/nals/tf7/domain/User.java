@@ -11,10 +11,12 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import java.time.Instant;
 
@@ -32,24 +34,29 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class User
     extends AbstractAuditingEntity {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 100)
-    private String username;
+    @Column(name = "google_id", length = 50)
+    private String googleId;
 
-    @Column(name = "password_hash", length = 60)
-    private String password;
-
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "image_name", length = 500)
-    private String imageName;
+    @Column(name = "lang_key", nullable = false)
+    private String langKey;
+
+    @Column
+    private String avatar;
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(name = "password_hash", nullable = false, length = 60)
+    private String password;
 
     @Column(length = 20)
     private String phone;
@@ -58,46 +65,32 @@ public class User
     private String address;
 
     @Enumerated(STRING)
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private Gender gender;
 
     @Column
     private Instant dob;
 
-    @Size(min = 2, max = 6)
-    @Column(name = "lang_key", length = 6, nullable = false)
-    private String langKey;
-
     @Column(nullable = false)
-    @Builder.Default
-    private boolean activated = false;
+    private boolean activated;
 
-    @Column(name = "activation_key", length = 500)
-    private String activationKey;
+    @ToString.Exclude
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
-    @Column(name = "reset_key", length = 500)
-    private String resetKey;
-
-    @Column(name = "remain_try_number")
-    private Integer remainTryNumber;
-
-    @Column(name = "locked_date")
-    private Instant lockedDate;
-
-    @Column(name = "last_login_date")
-    private Instant lastLoginDate;
-
-    public User(final Long id, final String name,
-                final String email, final String phone,
+    public User(final Long id, final String email,
+                final String name, final String phone,
                 final String address, final Gender gender,
-                final Instant dob, final String imageName) {
+                final Instant dob, final String avatar, final Role role) {
         this.id = id;
-        this.name = name;
         this.email = email;
+        this.name = name;
         this.phone = phone;
         this.address = address;
         this.gender = gender;
         this.dob = dob;
-        this.imageName = imageName;
+        this.avatar = avatar;
+        this.role = role;
     }
 }

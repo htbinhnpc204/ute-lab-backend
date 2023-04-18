@@ -8,7 +8,6 @@ import com.nals.tf7.domain.Permission;
 import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.RolePermission;
 import com.nals.tf7.domain.User;
-import com.nals.tf7.domain.UserRole;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.helpers.TestHelper;
 import com.tobedevoured.modelcitizen.CreateModelException;
@@ -55,9 +54,9 @@ public class AuthControllerIntTest
     @Transactional
     public void test_login_shouldBeOk()
         throws Exception {
-        LoginReq dto = new LoginReq(user.getUsername(), ACCOUNT_PASSWORD);
+        LoginReq dto = new LoginReq(user.getEmail(), ACCOUNT_PASSWORD);
 
-        String imageUrl = getFileService().getFullFileUrl(user.getImageName());
+        String imageUrl = getFileService().getFullFileUrl(user.getEmail());
 
         restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
                                               .contentType(APPLICATION_JSON_UTF8)
@@ -69,17 +68,13 @@ public class AuthControllerIntTest
         throws RegisterBlueprintException, CreateModelException {
         registerBlueprints(UserBlueprint.class);
 
-        user = createFakeModel(User.class);
-        user.setPassword(getPasswordEncoder().encode(ACCOUNT_PASSWORD));
-        getUserRepository().save(user);
-
         Long permissionId = getPermissionRepository().save(new Permission("READ")).getId();
         Long roleId = getRoleRepository().save(new Role("ROLE_REQUESTER")).getId();
 
-        getUserRoleRepository().save(UserRole.builder()
-                                             .userId(user.getId())
-                                             .roleId(roleId)
-                                             .build());
+        user = createFakeModel(User.class);
+        user.setPassword(getPasswordEncoder().encode(ACCOUNT_PASSWORD));
+        user.setRole(Role.builder().id(roleId).build());
+        getUserRepository().save(user);
 
         getRolePermissionRepository().save(RolePermission.builder()
                                                          .roleId(roleId)
