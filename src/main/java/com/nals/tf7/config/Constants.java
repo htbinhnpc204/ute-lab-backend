@@ -20,6 +20,7 @@ public final class Constants {
     public static final String POSTAL_CODE_PATTERN = "^\\d{3}-\\d{4}$";
 
     public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
+    public static final String COMMA = ",";
 
     private Constants() {
     }

@@ -1,6 +1,7 @@
 package com.nals.tf7.blueprints;
 
 import com.github.javafaker.Faker;
+import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.User;
 import com.nals.tf7.enums.Gender;
 import com.nals.tf7.helpers.DateHelper;
@@ -60,6 +61,9 @@ public class UserBlueprint {
 
     @Default
     private String langKey = DEFAULT_LANG_KEY;
+
+    @Default
+    private Role role;
 
     @Default
     private String password = "$2a$10$MbuTII7CecKnw24JFb.jIutpbYnlFOn6h6ePRIoAxdlfCxCO2tAh2"; // encode ACCOUNT_PASSWORD

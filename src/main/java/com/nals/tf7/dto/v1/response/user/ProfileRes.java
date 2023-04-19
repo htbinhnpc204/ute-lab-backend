@@ -2,6 +2,7 @@ package com.nals.tf7.dto.v1.response.user;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.nals.tf7.dto.v1.response.RoleRes;
 import com.nals.tf7.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,6 @@ public class ProfileRes {
     private String email;
     private String phone;
     private String address;
-    private String imageName;
-    private String imageUrl;
-    private Boolean isFirstLogin;
+    private String avatar;
+    private RoleRes role;
 }

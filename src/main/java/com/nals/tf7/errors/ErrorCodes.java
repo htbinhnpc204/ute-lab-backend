@@ -13,11 +13,12 @@ public final class ErrorCodes {
 
     // Validator exception error code (Default: RW-0300)
     public static final String INVALID_KEY = "RW-0300";
-    public static final String INVALID_USERNAME_OR_PASSWORD = "RW-0301";
+    public static final String INVALID_EMAIL_OR_PASSWORD = "RW-0301";
     public static final String USER_WAS_LOCKED = "RW-0302";
     public static final String INVALID_REFRESH_TOKEN = "RW-0304";
     public static final String INVALID_RESET_KEY = "RW-0305";
     public static final String INVALID_USER_SITE = "RW-0306";
+    public static final String INVALID_DATA = "RW-0307";
 
     // Validator exception error (Default: RW-0400)
     public static final String BAD_REQUEST = "RW-0400";

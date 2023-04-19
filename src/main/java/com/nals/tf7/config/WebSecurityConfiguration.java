@@ -36,6 +36,13 @@ public class WebSecurityConfiguration
         return new BCryptPasswordEncoder();
     }
 
+//    @Override
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean()
+//        throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+
     @Override
     public void configure(final WebSecurity web) {
         web.ignoring()
