@@ -1,4 +1,3 @@
-
 logging:
   file:
     path: ${LOG_PATH:./logs}
@@ -93,7 +92,6 @@ logbook:
   include:
     - /api/**
 
-
 application:
   service-name: Review 360 application
   console-url: ${CONSOLE_URL:https://tf7.dev.nals.vn}
@@ -124,3 +122,8 @@ application:
     temp-dir: /tmp
     working-dir: /working
     use-iam-role: ${AWS_S3_USE_AIM_ROLE:false}
+
+redis:
+  host-name: ${REDIS_HOST_NAME:localhost}
+  port: ${REDIS_PORT:6379}
+  password: ${REDIS_PASSWORD:""}

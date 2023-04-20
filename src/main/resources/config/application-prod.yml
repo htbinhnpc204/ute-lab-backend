@@ -126,7 +126,7 @@ application:
   file-upload:
     max-size-allow: 5120
     allow-extensions: png, jpg, jpeg, gif
-amazon-s3:
+  amazon-s3:
     access-key: ${AWS_S3_ACCESS_KEY:changeit}
     secret-key: ${AWS_S3_SECRET_KEY:changeit}
     region: ${AWS_S3_REGION:us-east-2}
@@ -134,3 +134,8 @@ amazon-s3:
     temp-dir: /tmp
     working-dir: /working
     use-iam-role: ${AWS_S3_USE_AIM_ROLE:false}
+
+redis:
+  host-name: ${REDIS_HOST_NAME}
+  port: ${REDIS_PORT}
+  password: ${REDIS_PASSWORD}
