@@ -9,6 +9,7 @@ import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.RolePermission;
 import com.nals.tf7.domain.User;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
+import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.helpers.TestHelper;
 import com.tobedevoured.modelcitizen.CreateModelException;
 import com.tobedevoured.modelcitizen.RegisterBlueprintException;
@@ -30,6 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Review360App.class)
 public class AuthControllerIntTest
     extends AbstractTest {
+
+    private static final String READ_PERMISSION = "READ";
+    private static final String ROLE_REQUESTER = "ROLE_REQUESTER";
 
     @Autowired
     private AuthController authController;
@@ -56,28 +60,74 @@ public class AuthControllerIntTest
         throws Exception {
         LoginReq dto = new LoginReq(user.getEmail(), ACCOUNT_PASSWORD);
 
-        String imageUrl = getFileService().getFullFileUrl(user.getEmail());
+        restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
+                                              .contentType(APPLICATION_JSON_UTF8)
+                                              .content(TestHelper.convertObjectToJsonBytes(dto)))
+               .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void test_login_withWrongEmailPattern_shouldBeBadRequest()
+        throws Exception {
+        LoginReq dto = new LoginReq(getFaker().lorem().word(), ACCOUNT_PASSWORD);
 
         restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
                                               .contentType(APPLICATION_JSON_UTF8)
                                               .content(TestHelper.convertObjectToJsonBytes(dto)))
-               .andExpect(status().isNoContent());
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void test_login_withEmailIsEmpty_shouldBeBadRequest()
+        throws Exception {
+        LoginReq dto = new LoginReq(StringHelper.EMPTY, ACCOUNT_PASSWORD);
+
+        restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
+                                              .contentType(APPLICATION_JSON_UTF8)
+                                              .content(TestHelper.convertObjectToJsonBytes(dto)))
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void test_login_withPasswordIsEmpty_shouldBeBadRequest()
+        throws Exception {
+        LoginReq dto = new LoginReq(user.getEmail(), StringHelper.EMPTY);
+
+        restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
+                                              .contentType(APPLICATION_JSON_UTF8)
+                                              .content(TestHelper.convertObjectToJsonBytes(dto)))
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void test_login_withEmailPasswordIsIncorrect_shouldBeBadRequest()
+        throws Exception {
+        LoginReq dto = new LoginReq(user.getEmail(), ACCOUNT_PASSWORD + getFaker().lorem().word());
+
+        restMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/login")
+                                              .contentType(APPLICATION_JSON_UTF8)
+                                              .content(TestHelper.convertObjectToJsonBytes(dto)))
+               .andExpect(status().isUnauthorized());
     }
 
     private void fakeData()
         throws RegisterBlueprintException, CreateModelException {
         registerBlueprints(UserBlueprint.class);
 
-        Long permissionId = getPermissionRepository().save(new Permission("READ")).getId();
-        Long roleId = getRoleRepository().save(new Role("ROLE_REQUESTER")).getId();
+        Long permissionId = getPermissionRepository().save(new Permission(READ_PERMISSION)).getId();
+        Role role = getRoleRepository().save(new Role(ROLE_REQUESTER));
 
         user = createFakeModel(User.class);
         user.setPassword(getPasswordEncoder().encode(ACCOUNT_PASSWORD));
-        user.setRole(Role.builder().id(roleId).build());
+        user.setRole(role);
         getUserRepository().save(user);
 
         getRolePermissionRepository().save(RolePermission.builder()
-                                                         .roleId(roleId)
+                                                         .roleId(role.getId())
                                                          .permissionId(permissionId)
                                                          .build());
     }

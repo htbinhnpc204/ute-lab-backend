@@ -35,7 +35,7 @@ public class DomainUserDetailsService
     public UserDetails loadUserByUsername(final String email) {
         log.info("Authenticating {}", email);
 
-        return userRepository.findOneByEmail(email)
+        return userRepository.findOneByEmailAndActivatedIsTrue(email)
                              .map(this::createSpringSecurityUser)
                              .orElseThrow(() -> new UsernameNotFoundException(
                                  "Account " + email + " was not found in the database"));
