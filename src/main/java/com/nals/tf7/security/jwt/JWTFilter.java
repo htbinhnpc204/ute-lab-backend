@@ -39,7 +39,7 @@ public class JWTFilter
 
         if (Objects.nonNull(claims) && claims.containsKey(REFRESH_TOKEN_ID) && jwtToken != null) {
             String oldToken = (String) redisService.getValue(jwtToken);
-            if (StringHelper.isBlank(oldToken) || oldToken.equals(jwtToken)) {
+            if (StringHelper.isBlank(oldToken) || !oldToken.equals(jwtToken)) {
                 Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
