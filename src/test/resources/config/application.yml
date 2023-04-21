@@ -58,7 +58,6 @@ server:
   port: 10344
   address: localhost
 
-
 jhipster:
   clientApp:
     name: 'tf7App'

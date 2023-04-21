@@ -1,5 +1,7 @@
 package com.nals.tf7.security.jwt;
 
+import com.nals.tf7.helpers.StringHelper;
+import com.nals.tf7.service.v1.RedisService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class JWTFilter
     extends GenericFilterBean {
 
     private final TokenProvider tokenProvider;
+    private  final RedisService redisService;
 
     public void doFilter(final ServletRequest servletRequest,
                          final ServletResponse servletResponse,
@@ -34,9 +37,12 @@ public class JWTFilter
         String jwtToken = tokenProvider.resolveToken(request);
         Claims claims = tokenProvider.validateAndGet(jwtToken);
 
-        if (Objects.nonNull(claims) && claims.containsKey(REFRESH_TOKEN_ID)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (Objects.nonNull(claims) && claims.containsKey(REFRESH_TOKEN_ID) && jwtToken != null) {
+            String oldToken = (String) redisService.getValue(jwtToken);
+            if (StringHelper.isBlank(oldToken) || oldToken.equals(jwtToken)) {
+                Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

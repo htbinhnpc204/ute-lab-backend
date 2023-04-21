@@ -7,14 +7,19 @@ import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.helpers.ValidatorHelper;
 import com.nals.tf7.security.DomainUserDetails;
 import com.nals.tf7.security.jwt.TokenProvider;
+import com.nals.tf7.service.v1.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.util.stream.Collectors;
 
@@ -31,8 +36,12 @@ import static com.nals.tf7.errors.ErrorCodes.INVALID_DATA;
 @RequiredArgsConstructor
 public class AuthBloc {
 
+    private static final int MINUTE_IN_SECOND = 3600;
+    private static final int HOUR_IN_SECOND = MINUTE_IN_SECOND * 60;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
+    private final RedisService redisService;
 
     @Transactional(readOnly = true)
     public OAuthTokenRes authenticate(final LoginReq loginReq) {
@@ -77,5 +86,15 @@ public class AuthBloc {
         if (!ValidatorHelper.isValidEmail(loginReq.getEmail())) {
             throw new InvalidCredentialException(EMAIL, EMAIL_PATTERN_INVALID, INVALID_DATA);
         }
+    }
+
+    public void logout(final HttpServletRequest request, final HttpServletResponse response) {
+        String token = tokenProvider.resolveToken(request);
+        if (token != null) {
+            redisService.setValue(token, token, HOUR_IN_SECOND);
+        }
+
+        SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
+        securityContextLogoutHandler.logout(request, response, null);
     }
 }

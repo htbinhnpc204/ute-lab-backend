@@ -9,6 +9,8 @@ import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.RolePermission;
 import com.nals.tf7.domain.User;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
+import com.nals.tf7.dto.v1.response.DataRes;
+import com.nals.tf7.dto.v1.response.OAuthTokenRes;
 import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.helpers.TestHelper;
 import com.tobedevoured.modelcitizen.CreateModelException;
@@ -18,11 +20,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 import static com.nals.tf7.helpers.TestHelper.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -112,6 +117,23 @@ public class AuthControllerIntTest
                                               .contentType(APPLICATION_JSON_UTF8)
                                               .content(TestHelper.convertObjectToJsonBytes(dto)))
                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Transactional
+    public void test_logout_shouldBeNoContent()
+        throws Exception {
+        LoginReq dto = new LoginReq(user.getEmail(), ACCOUNT_PASSWORD);
+
+        ResponseEntity<?> request = authController.login(dto);
+
+        DataRes dataRes = (DataRes) request.getBody();
+
+        OAuthTokenRes auth = (OAuthTokenRes) Objects.requireNonNull(dataRes).getData();
+
+        restMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/logout")
+                                              .header("RW-Authorization", "Bearer " + auth.getAccessToken()))
+               .andExpect(status().isNoContent());
     }
 
     private void fakeData()

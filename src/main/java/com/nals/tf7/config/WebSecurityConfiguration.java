@@ -3,6 +3,7 @@ package com.nals.tf7.config;
 import com.nals.tf7.security.custom.CustomDefaultWebSecurityExpressionHandler;
 import com.nals.tf7.security.jwt.JWTConfigurer;
 import com.nals.tf7.security.jwt.TokenProvider;
+import com.nals.tf7.service.v1.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -30,18 +31,12 @@ public class WebSecurityConfiguration
     private final CorsFilter corsFilter;
     private final TokenProvider tokenProvider;
     private final SecurityProblemSupport problemSupport;
+    private final RedisService redisService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Override
-//    @Bean
-//    public AuthenticationManager authenticationManagerBean()
-//        throws Exception {
-//        return super.authenticationManagerBean();
-//    }
 
     @Override
     public void configure(final WebSecurity web) {
@@ -98,6 +93,6 @@ public class WebSecurityConfiguration
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
+        return new JWTConfigurer(tokenProvider, redisService);
     }
 }
