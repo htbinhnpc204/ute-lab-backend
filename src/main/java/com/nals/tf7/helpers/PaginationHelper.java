@@ -12,7 +12,7 @@ public final class PaginationHelper {
 
     private static final String ASC = "asc";
     private static final String DEFAULT_SORT_PROPERTY = "id";
-    private static final int DEFAULT_RECORD_PER_PAGE = 5;
+    private static final int DEFAULT_RECORD_PER_PAGE = 6;
     private static final int DEFAULT_CURRENT_PAGE = 0;
 
     private PaginationHelper() {
@@ -34,7 +34,6 @@ public final class PaginationHelper {
         if (Objects.isNull(limit)) {
             return DEFAULT_RECORD_PER_PAGE;
         }
-
         return Math.max(limit, DEFAULT_RECORD_PER_PAGE);
     }
 

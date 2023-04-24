@@ -8,6 +8,7 @@ import com.nals.tf7.domain.Role;
 import com.nals.tf7.domain.RolePermission;
 import com.nals.tf7.domain.User;
 import com.nals.tf7.errors.ExceptionTranslator;
+import com.nals.tf7.repository.GroupRepository;
 import com.nals.tf7.repository.PermissionRepository;
 import com.nals.tf7.repository.RolePermissionRepository;
 import com.nals.tf7.repository.RoleRepository;
@@ -73,6 +74,9 @@ public class AbstractTest {
 
     @Mock
     private ApplicationProperties mockApplicationProperties;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private UserRepository userRepository;

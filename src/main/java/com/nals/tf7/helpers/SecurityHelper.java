@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.nals.tf7.enums.RoleType.ROLE_ADMIN;
+import static com.nals.tf7.enums.RoleType.ROLE_BOD;
 
 /**
  * Utility class for Spring Security.
@@ -106,8 +107,8 @@ public final class SecurityHelper {
         return false;
     }
 
-    public static boolean isAdmin() {
-        return hasRole(ROLE_ADMIN.name());
+    public static boolean isAdminOrBOD() {
+        return hasAnyRole(ROLE_ADMIN.name(), ROLE_BOD.name());
     }
 
     private static Stream<String> getAuthorities(final Authentication authentication) {

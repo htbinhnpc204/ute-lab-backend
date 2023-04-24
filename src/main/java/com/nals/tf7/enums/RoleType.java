@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static com.nals.tf7.errors.ErrorCodes.ROLE_TYPE_NOT_FOUND;
 
 public enum RoleType {
-    ROLE_ADMIN;
+    ROLE_ADMIN, ROLE_BOD;
 
     public static RoleType get(final String value) {
         return Arrays.stream(values())
