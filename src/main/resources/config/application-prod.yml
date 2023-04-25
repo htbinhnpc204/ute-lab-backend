@@ -139,3 +139,9 @@ redis:
   host-name: ${REDIS_HOST_NAME}
   port: ${REDIS_PORT}
   password: ${REDIS_PASSWORD}
+
+minio:
+  endpoint: ${MINIO_HOST_NAME}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket-name: ${MINIO_BUCKET_NAME}

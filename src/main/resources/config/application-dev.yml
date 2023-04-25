@@ -113,7 +113,7 @@ application:
     - password
   file-upload:
     max-size-allow: 5120
-    allow-extensions: png, jpg, jpeg, gif
+    allow-extensions: png, jpeg
   amazon-s3:
     access-key: ${AWS_S3_ACCESS_KEY:changeit}
     secret-key: ${AWS_S3_SECRET_KEY:changeit}
@@ -127,3 +127,9 @@ redis:
   host-name: ${REDIS_HOST_NAME:localhost}
   port: ${REDIS_PORT:6379}
   password: ${REDIS_PASSWORD:""}
+
+minio:
+  endpoint: ${MINIO_HOST_NAME:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:changit}
+  secret-key: ${MINIO_SECRET_KEY:changit}
+  bucket-name: ${MINIO_BUCKET_NAME:changeit}
