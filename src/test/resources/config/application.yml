@@ -128,8 +128,8 @@ application:
     working-dir: /working
     use-iam-role: false
 
-  minio:
-    endpoint: ${MINIO_HOST_NAME:http://localhost:9000}
-    access-key: ${MINIO_ACCESS_KEY:changit}
-    secret-key: ${MINIO_SECRET_KEY:changit}
-    bucket-name: ${MINIO_BUCKET_NAME:changeit}
+minio:
+  endpoint: ${MINIO_HOST_NAME:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:changit}
+  secret-key: ${MINIO_SECRET_KEY:changit}
+  bucket-name: ${MINIO_BUCKET_NAME:changeit}
