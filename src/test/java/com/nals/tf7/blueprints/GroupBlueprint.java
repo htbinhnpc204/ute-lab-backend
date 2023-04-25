@@ -24,7 +24,8 @@ public class GroupBlueprint {
     private FieldCallback<String> name = new FieldCallback<>() {
         @Override
         public String get(final Object referenceModel) {
-            return faker.name().name();
+
+            return faker.name().fullName();
         }
     };
 
