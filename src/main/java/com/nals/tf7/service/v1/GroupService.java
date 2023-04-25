@@ -29,4 +29,9 @@ public class GroupService
         log.info("Search groups by user id #{} and type #{} with data #{}", userId, type, pageable);
         return getRepository().searchByUserIdAndType(userId, type, pageable);
     }
+
+    public boolean existsByName(final String name) {
+        log.info("Check group name is exists: #{}", name);
+        return getRepository().existsByName(name);
+    }
 }

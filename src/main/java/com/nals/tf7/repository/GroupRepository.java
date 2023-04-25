@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface GroupRepository
     extends JpaRepository<Group, Long> {
 
+    boolean existsByName(String name);
+
     @Query("SELECT g"
         + " FROM Group g"
         + " WHERE (:name IS NULL OR g.name LIKE %:name%)"
