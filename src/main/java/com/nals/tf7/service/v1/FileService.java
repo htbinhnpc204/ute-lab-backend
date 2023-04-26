@@ -1,11 +1,14 @@
 package com.nals.tf7.service.v1;
 
 import com.nals.tf7.config.ApplicationProperties;
+import com.nals.tf7.errors.ErrorCodes;
 import com.nals.tf7.errors.FileException;
+import com.nals.tf7.errors.ValidatorException;
 import com.nals.tf7.helpers.FileHelper;
 import com.nals.tf7.helpers.StringHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,8 @@ import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
+import javax.imageio.ImageIO;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,6 +32,17 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.nals.tf7.config.ErrorConstants.FILE;
+import static com.nals.tf7.config.ErrorConstants.FILE_DIMENSION_IS_NOT_ALLOW;
+import static com.nals.tf7.config.ErrorConstants.FILE_EXTENSION_IS_NOT_ALLOW;
+import static com.nals.tf7.config.ErrorConstants.FILE_NAME_IS_INVALID;
+import static com.nals.tf7.config.ErrorConstants.FILE_SIZE_IS_NOT_ALLOW;
+import static com.nals.tf7.config.ErrorConstants.INVALID_UPLOAD_FILE;
+import static com.nals.tf7.errors.ErrorCodes.INVALID_FILE;
+import static com.nals.tf7.errors.ErrorCodes.INVALID_FILE_DIMENSION;
+import static com.nals.tf7.errors.ErrorCodes.INVALID_FILE_EXTENSION;
+import static com.nals.tf7.errors.ErrorCodes.INVALID_FILE_NAME;
+import static com.nals.tf7.errors.ErrorCodes.INVALID_FILE_SIZE;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Slf4j
@@ -42,10 +58,14 @@ public class FileService {
     private final String workingDir;
     private final S3Client s3Client;
     private final int maxSizeAllow;
+    private final int allowWidth;
+    private final int allowHeight;
     private final Set<String> allowExtensions;
+    private final Tika tika;
 
     public FileService(final ApplicationProperties applicationProperties,
-                       final S3Client s3Client) {
+                       final S3Client s3Client,
+                       final Tika tika) {
         ApplicationProperties.AmazonS3 amazonS3Config = applicationProperties.getAmazonS3();
         this.bucketName = amazonS3Config.getBucketName();
         this.tmpDir = amazonS3Config.getTempDir();
@@ -55,6 +75,9 @@ public class FileService {
         ApplicationProperties.FileUpload fileUpload = applicationProperties.getFileUpload();
         this.maxSizeAllow = fileUpload.getMaxSizeAllow();
         this.allowExtensions = fileUpload.getAllowExtensions();
+        this.allowWidth = fileUpload.getAllowWidth();
+        this.allowHeight = fileUpload.getAllowHeight();
+        this.tika = tika;
     }
 
     public void saveFile(final String fileName) {
@@ -126,16 +149,31 @@ public class FileService {
 
     public void validateFile(final MultipartFile uploadFile)
         throws IOException {
-        if (Objects.isNull(uploadFile)) {
-            throw new FileException("File not found");
+        if (Objects.isNull(uploadFile) || uploadFile.isEmpty()) {
+            throw new ValidatorException(INVALID_UPLOAD_FILE, FILE, INVALID_FILE);
         }
 
         if (StringHelper.isBlank(uploadFile.getOriginalFilename())) {
-            throw new FileException("Invalid file name");
+            throw new ValidatorException(FILE_NAME_IS_INVALID, FILE, INVALID_FILE_NAME);
         }
 
-        if (uploadFile.isEmpty() || uploadFile.getBytes().length > maxSizeAllow * 1024) {
-            throw new FileException("File size is not allow");
+        if (uploadFile.getBytes().length > maxSizeAllow * 1024) {
+            throw new ValidatorException(FILE_SIZE_IS_NOT_ALLOW, FILE, INVALID_FILE_SIZE);
+        }
+
+        String detectExtension = tika.detect(uploadFile.getBytes());
+        log.info("File upload detect extension: #{}", detectExtension);
+        if (!detectExtension.equals(uploadFile.getContentType())) {
+            throw new ValidatorException(FILE_EXTENSION_IS_NOT_ALLOW, FILE, INVALID_FILE_EXTENSION);
+        }
+
+        var image = ImageIO.read(uploadFile.getInputStream());
+        if (Objects.isNull(image)) {
+            throw new ValidatorException(INVALID_UPLOAD_FILE, FILE, INVALID_FILE);
+        }
+
+        if (image.getWidth() != allowWidth || image.getHeight() != allowHeight) {
+            throw new ValidatorException(FILE_DIMENSION_IS_NOT_ALLOW, FILE, INVALID_FILE_DIMENSION);
         }
 
         validateExtension(uploadFile.getOriginalFilename(), allowExtensions);
@@ -254,7 +292,7 @@ public class FileService {
     private void validateExtension(final String fileName, final Set<String> extensions) {
         String fileExtension = FileHelper.getExtension(fileName);
         if (extensions.stream().noneMatch(extension -> extension.equalsIgnoreCase(fileExtension))) {
-            throw new FileException("Invalid extension");
+            throw new ValidatorException(INVALID_UPLOAD_FILE, FILE, INVALID_FILE);
         }
     }
 

@@ -51,6 +51,8 @@ public class ApplicationProperties {
     @Setter
     public static class FileUpload {
         private int maxSizeAllow = 10240;
+        private int allowWidth;
+        private int allowHeight;
         private Set<String> allowExtensions = new HashSet<>();
     }
 

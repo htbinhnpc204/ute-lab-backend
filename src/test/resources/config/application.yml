@@ -117,8 +117,10 @@ application:
     - refresh_token
     - password
   file-upload:
-    max-size-allow: 10240
-    allow-extensions: png, jpg, jpeg, gif
+    max-size-allow: ${MAX_SIZE_ALLOW:5120}
+    allow-extensions: ${ALLOW_EXTENSIONS:png, jpeg}
+    allow-width: ${ALLOW_WIDTH:640}
+    allow-height: ${ALLOW_HEIGHT:640}
   amazon-s3:
     access-key: test
     secret-key: test
@@ -129,7 +131,7 @@ application:
     use-iam-role: false
 
 minio:
-  endpoint: ${MINIO_HOST_NAME:http://localhost:9000}
-  access-key: ${MINIO_ACCESS_KEY:changit}
-  secret-key: ${MINIO_SECRET_KEY:changit}
-  bucket-name: ${MINIO_BUCKET_NAME:changeit}
+  endpoint: test
+  access-key: test
+  secret-key: test
+  bucket-name: test
