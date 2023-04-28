@@ -1,7 +1,6 @@
 package com.nals.tf7.service.v1;
 
 import com.nals.tf7.config.ApplicationProperties;
-import com.nals.tf7.errors.ErrorCodes;
 import com.nals.tf7.errors.FileException;
 import com.nals.tf7.errors.ValidatorException;
 import com.nals.tf7.helpers.FileHelper;
