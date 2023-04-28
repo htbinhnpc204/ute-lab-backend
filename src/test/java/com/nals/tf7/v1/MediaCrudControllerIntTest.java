@@ -89,7 +89,8 @@ public class MediaCrudControllerIntTest
     @Transactional
     public void test_uploadMedia_withInvalidWidth_shouldBeBadRequest()
         throws Exception {
-        var multipartFile = createMockImageFile(INVALID_WIDTH, ALLOW_HEIGHT, PNG_EXTENSION, PNG_CONTENT_TYPE, FILE_NAME);
+        var multipartFile = createMockImageFile(INVALID_WIDTH, ALLOW_HEIGHT, PNG_EXTENSION,
+                                                PNG_CONTENT_TYPE, FILE_NAME);
 
         Mockito.when(minioService.uploadFile(any(), any(), any())).thenReturn(FILE_NAME);
 
@@ -102,7 +103,8 @@ public class MediaCrudControllerIntTest
     @Transactional
     public void test_uploadMedia_withInvalidHeight_shouldBeBadRequest()
         throws Exception {
-        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, PNG_EXTENSION, PNG_CONTENT_TYPE, FILE_NAME);
+        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, PNG_EXTENSION,
+                                                PNG_CONTENT_TYPE, FILE_NAME);
 
         Mockito.when(minioService.uploadFile(any(), any(), any())).thenReturn(FILE_NAME);
 
@@ -115,7 +117,8 @@ public class MediaCrudControllerIntTest
     @Transactional
     public void test_uploadMedia_withInvalidExtension_shouldBeBadRequest()
         throws Exception {
-        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, TXT_EXTENSION, PNG_CONTENT_TYPE, FILE_NAME);
+        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, TXT_EXTENSION,
+                                                PNG_CONTENT_TYPE, FILE_NAME);
 
         Mockito.when(minioService.uploadFile(any(), any(), any())).thenReturn(FILE_NAME);
 
@@ -141,7 +144,8 @@ public class MediaCrudControllerIntTest
     @Transactional
     public void test_uploadMedia_withFileNameIsNull_shouldBeBadRequest()
         throws Exception {
-        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, PNG_EXTENSION, PLAIN_TEXT_TYPE, null);
+        var multipartFile = createMockImageFile(ALLOW_WIDTH, INVALID_HEIGHT, PNG_EXTENSION,
+                                                PLAIN_TEXT_TYPE, null);
 
         Mockito.when(minioService.uploadFile(any(), any(), any())).thenReturn(FILE_NAME);
 
