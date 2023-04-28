@@ -19,6 +19,11 @@ public final class ErrorCodes {
     public static final String INVALID_RESET_KEY = "RW-0305";
     public static final String INVALID_USER_SITE = "RW-0306";
     public static final String INVALID_DATA = "RW-0307";
+    public static final String INVALID_FILE = "RW-0308";
+    public static final String INVALID_FILE_NAME = "RW-0309";
+    public static final String INVALID_FILE_EXTENSION = "RW-0310";
+    public static final String INVALID_FILE_DIMENSION = "RW-0311";
+    public static final String INVALID_FILE_SIZE = "RW-0312";
 
     // Validator exception error (Default: RW-0400)
     public static final String BAD_REQUEST = "RW-0400";
