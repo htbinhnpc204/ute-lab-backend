@@ -58,7 +58,7 @@ public class SubGroup
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
-    private Group group;
+    private Lab lab;
 
     @ManyToMany
     @JoinTable(name = "group_users",
@@ -67,12 +67,12 @@ public class SubGroup
     private List<User> users;
 
     public SubGroup(final Long id, final String name,
-                    final GroupType type, final Group group,
+                    final GroupType type, final Lab lab,
                     final String avatar, final String description) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.group = group;
+        this.lab = lab;
         this.avatar = avatar;
         this.description = description;
     }

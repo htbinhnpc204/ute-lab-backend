@@ -1,3 +1,3 @@
-role_id;permission_id;created_by;last_modified_by
-1;1;admin@localhost.com;admin@localhost.com
-1;2;admin@localhost.com;admin@localhost.com
+ma_phan_quyen;ma_quyen;created_by;last_modified_by
+1;1;admin@ute.com;admin@ute.com
+1;2;admin@ute.com;admin@ute.com

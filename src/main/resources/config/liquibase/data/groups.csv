@@ -1,7 +1,0 @@
-id;name;description;type;created_by;last_modified_by
-1;Tf7;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;PROJECT;admin@localhost.com;admin@localhost.com
-2;TechLead;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;TECH;admin@localhost.com;admin@localhost.com
-3;Tester;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;NON_TECH;admin@localhost.com;admin@localhost.com
-4;NewOrient;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;PROJECT;admin@localhost.com;admin@localhost.com
-5;Marvel;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;PROJECT;admin@localhost.com;admin@localhost.com
-6;NALS;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s;NON_TECH;admin@localhost.com;admin@localhost.com

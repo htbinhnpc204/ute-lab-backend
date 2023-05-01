@@ -1,6 +1,5 @@
 package com.nals.tf7.domain;
 
-import com.nals.tf7.enums.GroupType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,16 +9,12 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -30,41 +25,34 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "`groups`")
-public class Group
+@Table(name = "phong_may")
+public class Lab
     extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ma_phong")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "ten_phong_may", nullable = false, unique = true)
     private String name;
 
-    @Column(length = 500)
+    @Column(name = "mo_ta", length = 500)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private GroupType type;
-
-    @Column
+    @Column(name = "hinh_anh")
     private String avatar;
 
-    @ManyToMany
-    @JoinTable(name = "group_users",
-        joinColumns = @JoinColumn(name = "group_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ma_nhan_vien", nullable = false)
+    private User manager;
 
-    public Group(final Long id, final String name,
-                 final GroupType type, final String avatar,
-                 final String description) {
+    public Lab(final Long id, final String name,
+               final String avatar, final String description) {
         this.id = id;
         this.name = name;
-        this.type = type;
         this.avatar = avatar;
         this.description = description;
     }

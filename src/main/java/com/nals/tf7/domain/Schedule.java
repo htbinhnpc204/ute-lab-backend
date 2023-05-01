@@ -12,7 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -21,21 +25,32 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "quyen")
-public class Permission
+@Table(name = "lich_su_dung")
+public class Schedule
     extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ma_quyen")
+    @Column(name = "ma_lich_su_dung")
     private Long id;
 
-    @Column(name = "ten_quyen", length = 50, unique = true)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "ma_phong", nullable = false)
+    private Lab lab;
 
-    public Permission(final String name) {
-        this.name = name;
-    }
+    @ManyToOne
+    @JoinColumn(name = "ma_lop")
+    private Class pClass;
+
+    @ManyToOne
+    @JoinColumn(name = "ma_nguoi_dung", nullable = false)
+    private User user;
+
+    @Column(name = "thoi_gian_bat_dau", nullable = false)
+    private Instant timeStart;
+
+    @Column(name = "thoi_gian_su_dung", nullable = false)
+    private Integer timeUse;
 }

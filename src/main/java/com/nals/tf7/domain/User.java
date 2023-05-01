@@ -29,7 +29,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "nguoi_dung")
 public class User
     extends AbstractAuditingEntity {
 
@@ -37,44 +37,45 @@ public class User
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ma_nguoi_dung")
     private Long id;
 
-    @Column(name = "google_id", length = 50)
-    private String googleId;
+    @Column(name = "ma_sinh_vien", length = 13, unique = true)
+    private String studentId;
 
-    @Column(nullable = false)
+    @Column(name = "ten_nguoi_dung", nullable = false)
     private String name;
 
-    @Column(name = "lang_key", nullable = false)
+    @Column(name = "ngon_ngu", nullable = false)
     private String langKey;
 
-    @Column
+    @Column(name = "hinh_anh")
     private String avatar;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password_hash", nullable = false, length = 60)
+    @Column(name = "mat_khau", nullable = false, length = 60)
     private String password;
 
-    @Column(length = 20)
+    @Column(name = "so_dien_thoai", length = 20)
     private String phone;
 
-    @Column(length = 500)
+    @Column(name = "dia_chi", length = 500)
     private String address;
 
     @Enumerated(STRING)
-    @Column(length = 20, nullable = false)
+    @Column(name = "gioi_tinh", length = 20, nullable = false)
     private Gender gender;
 
-    @Column
+    @Column(name = "ngay_sinh")
     private Instant dob;
 
-    @Column(nullable = false)
+    @Column(name = "trang_thai", nullable = false)
     private boolean activated;
 
     @OneToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "ma_phan_quyen", nullable = false)
     private Role role;
 
     public User(final Long id, final String email,

@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "role_permissions")
+@Table(name = "phan_quyen_quyen")
 public class RolePermission
     extends AbstractAuditingEntity {
 
@@ -29,11 +29,12 @@ public class RolePermission
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ma")
     private Long id;
 
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "ma_phan_quyen", nullable = false)
     private Long roleId;
 
-    @Column(name = "permission_id", nullable = false)
+    @Column(name = "ma_quyen", nullable = false)
     private Long permissionId;
 }

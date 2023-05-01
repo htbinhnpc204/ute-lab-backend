@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static com.nals.tf7.errors.ErrorCodes.GENDER_NOT_FOUND;
 
 public enum Gender {
-    MALE, FEMALE, OTHER;
+    NAM, NU, OTHER;
 
     public static Gender get(final String value) {
         return Arrays.stream(values()).filter(gender -> gender.name().equals(value))

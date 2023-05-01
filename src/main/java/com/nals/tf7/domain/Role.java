@@ -26,7 +26,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "roles")
+@Table(name = "phan_quyen")
 public class Role
     extends AbstractAuditingEntity {
 
@@ -34,15 +34,16 @@ public class Role
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ma_phan_quyen")
     private Long id;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name = "ten_phan_quyen", length = 50, nullable = false, unique = true)
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "role_permissions",
-        joinColumns = @JoinColumn(name = "role_id"),
-        inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @JoinTable(name = "phan_quyen_quyen",
+        joinColumns = @JoinColumn(name = "ma_phan_quyen"),
+        inverseJoinColumns = @JoinColumn(name = "ma_quyen"))
     private List<Permission> permissions;
 
     public Role(final String name) {

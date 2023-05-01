@@ -22,9 +22,6 @@ public class UserCrudBloc {
         log.info("Get basic info of user has currentUserId #{}", currentUserId);
 
         User user = userService.getBasicInfoById(currentUserId);
-        ProfileRes response = UserMapper.INSTANCE.toUserBasicInfoRes(user);
-//        response.setImageUrl(fileService.getFullFileUrl(user.getImageName()));
-
-        return response;
+        return UserMapper.INSTANCE.toUserBasicInfoRes(user);
     }
 }

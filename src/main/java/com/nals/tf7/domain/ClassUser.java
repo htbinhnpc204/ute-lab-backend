@@ -27,7 +27,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "group_users")
-public class GroupUser
+public class ClassUser
     extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class GroupUser
     @Column(name = "role", nullable = false)
     private GroupUserRole groupUserRole;
 
-    public GroupUser(final Long groupId, final Long userId, final GroupUserType type,
+    public ClassUser(final Long groupId, final Long userId, final GroupUserType type,
                      final GroupUserRole groupUserRole) {
         this.groupId = groupId;
         this.userId = userId;

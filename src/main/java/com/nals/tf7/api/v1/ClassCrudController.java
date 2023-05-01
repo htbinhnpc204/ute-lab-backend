@@ -1,6 +1,6 @@
 package com.nals.tf7.api.v1;
 
-import com.nals.tf7.bloc.v1.GroupCrudBloc;
+import com.nals.tf7.bloc.v1.ClassCrudBloc;
 import com.nals.tf7.dto.v1.request.GroupReq;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,18 +12,18 @@ import javax.validation.Validator;
 
 @RestController
 @RequestMapping("/api/v1/groups")
-public class GroupCrudController
+public class ClassCrudController
     extends BaseController {
 
-    private final GroupCrudBloc groupCrudBloc;
+    private final ClassCrudBloc classCrudBloc;
 
-    public GroupCrudController(final Validator validator, final GroupCrudBloc groupCrudBloc) {
+    public ClassCrudController(final Validator validator, final ClassCrudBloc classCrudBloc) {
         super(validator);
-        this.groupCrudBloc = groupCrudBloc;
+        this.classCrudBloc = classCrudBloc;
     }
 
     @PostMapping
     public ResponseEntity<?> createGroup(@RequestBody final GroupReq groupReq) {
-        return created(groupCrudBloc.createGroup(groupReq).getId());
+        return created(classCrudBloc.createGroup(groupReq).getId());
     }
 }

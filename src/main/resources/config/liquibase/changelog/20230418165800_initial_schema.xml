@@ -22,7 +22,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20230418165800-2" author="thamnv">
+    <changeSet id="20230418165800-2" author="binhht">
         <createTable tableName="persistent_audit_event">
             <column name="event_id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -65,69 +65,12 @@
                                  referencedTableName="persistent_audit_event"/>
     </changeSet>
 
-    <changeSet id="20230418165800-3" author="thamnv">
-        <createTable tableName="groups">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+    <changeSet id="20230418165800-3" author="binhht">
+        <createTable tableName="quyen">
+            <column name="ma_quyen" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="description" type="varchar(500)"/>
-            <column name="type" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="avatar" type="varchar(255)"/>
-            <column name="created_by" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="last_modified_by" type="varchar(255)"/>
-            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="20230418165800-4" author="thamnv">
-        <createTable tableName="sub_groups">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="group_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="description" type="varchar(500)"/>
-            <column name="type" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="avatar" type="varchar(255)"/>
-            <column name="created_by" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="last_modified_by" type="varchar(255)"/>
-            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
-        </createTable>
-
-        <addForeignKeyConstraint baseColumnNames="group_id"
-                                 baseTableName="sub_groups"
-                                 constraintName="fk_sub_groups_group_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="groups"/>
-    </changeSet>
-
-    <changeSet id="20230418165800-5" author="thamnv">
-        <createTable tableName="permissions">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(50)">
+            <column name="ten_quyen" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -141,12 +84,12 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20230418165800-6" author="thamnv">
-        <createTable tableName="roles">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+    <changeSet id="20230418165800-4" author="binhht">
+        <createTable tableName="phan_quyen">
+            <column name="ma_phan_quyen" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(50)">
+            <column name="ten_phan_quyen" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -160,37 +103,37 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20230418165800-7" author="thamnv">
-        <createTable tableName="users">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+    <changeSet id="20230418165800-5" author="binhht">
+        <createTable tableName="nguoi_dung">
+            <column name="ma_nguoi_dung" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="google_id" type="varchar(50)">
+            <column name="ma_sinh_vien" type="varchar(13)">
                 <constraints unique="true"/>
             </column>
-            <column name="password_hash" type="varchar(60)">
+            <column name="mat_khau" type="varchar(60)">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="ten_nguoi_dung" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="avatar" type="varchar(255)"/>
+            <column name="hinh_anh" type="varchar(255)"/>
             <column name="email" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="dob" type="timestamp(3)"/>
-            <column name="phone" type="varchar(20)"/>
-            <column name="address" type="varchar(500)"/>
-            <column name="gender" type="varchar(20)" defaultValue="MALE">
+            <column name="ngay_sinh" type="timestamp(3)"/>
+            <column name="so_dien_thoai" type="varchar(20)"/>
+            <column name="dia_chi" type="varchar(500)"/>
+            <column name="gioi_tinh" type="varchar(20)" defaultValue="NAM">
                 <constraints nullable="false"/>
             </column>
-            <column name="lang_key" type="varchar(6)">
+            <column name="ngon_ngu" type="varchar(6)" defaultValue="EN">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" type="bigint">
+            <column name="ma_phan_quyen" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="activated" type="boolean" defaultValueBoolean="false">
+            <column name="trang_thai" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -203,24 +146,26 @@
             <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="role_id"
-                                 baseTableName="users"
-                                 constraintName="fk_users_role_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="roles"/>
+        <addForeignKeyConstraint baseColumnNames="ma_phan_quyen"
+                                 baseTableName="nguoi_dung"
+                                 constraintName="fk_nguoi_dung_ma_quyen"
+                                 referencedColumnNames="ma_phan_quyen"
+                                 referencedTableName="phan_quyen"/>
     </changeSet>
 
-    <changeSet id="20230418165800-8" author="thamnv">
-        <createTable tableName="role_permissions">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+    <changeSet id="20230418165800-6" author="binhht">
+        <createTable tableName="phong_may">
+            <column name="ma_phong" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="role_id" type="bigint">
+            <column name="ten_phong_may" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="mo_ta" type="varchar(500)"/>
+            <column name="ma_nhan_vien" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="permission_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
+            <column name="hinh_anh" type="varchar(255)"/>
             <column name="created_by" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
@@ -231,34 +176,26 @@
             <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="role_id"
-                                 baseTableName="role_permissions"
-                                 constraintName="fk_role_permissions_role_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="roles"/>
-
-        <addForeignKeyConstraint baseColumnNames="permission_id"
-                                 baseTableName="role_permissions"
-                                 constraintName="fk_role_permissions_permission_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="permissions"/>
+        <addForeignKeyConstraint baseColumnNames="ma_nhan_vien"
+                                 baseTableName="phong_may"
+                                 constraintName="fk_phong_may_ma_nhan_vien"
+                                 referencedColumnNames="ma_nguoi_dung"
+                                 referencedTableName="nguoi_dung"/>
     </changeSet>
 
-    <changeSet id="20230418165800-9" author="thamnv">
-        <createTable tableName="group_users">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+    <changeSet id="20230418165800-7" author="binhht">
+        <createTable tableName="may_tinh">
+            <column name="ma_may" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="group_id" type="bigint">
+            <column name="ma_phong" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="ten_may" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
             </column>
-            <column name="group_type" type="varchar(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="role" type="varchar(20)">
+            <column name="cau_hinh" type="varchar(500)"/>
+            <column name="trang_thai" type="boolean" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -271,41 +208,190 @@
             <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="group_users"
-                                 constraintName="fk_group_users_user_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="users"/>
-
-        <addForeignKeyConstraint baseColumnNames="group_id"
-                                 baseTableName="group_users"
-                                 constraintName="fk_group_users_group_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="groups"/>
-
-        <addUniqueConstraint tableName="group_users"
-                             columnNames="group_id, user_id, group_type"
-                             constraintName="un_sub_groups_gi_ui_gt"/>
+        <addForeignKeyConstraint baseColumnNames="ma_phong"
+                                 baseTableName="may_tinh"
+                                 constraintName="fk_may_tinh_ma_phong"
+                                 referencedColumnNames="ma_phong"
+                                 referencedTableName="phong_may"/>
     </changeSet>
 
-    <changeSet id="20230418165800-10" author="thamnv" dbms="mysql">
-        <loadData file="config/liquibase/data/groups.csv"
-                  separator=";"
-                  tableName="groups"/>
+    <changeSet id="20230418165800-8" author="binhht">
+        <createTable tableName="bao_loi">
+            <column name="ma_bao_loi" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_may" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mo_ta" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="trang_thai" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="ma_may"
+                                 baseTableName="bao_loi"
+                                 constraintName="fk_bao_loi_ma_may"
+                                 referencedColumnNames="ma_may"
+                                 referencedTableName="may_tinh"/>
+    </changeSet>
+
+    <changeSet id="20230418165800-9" author="binhht">
+        <createTable tableName="lop">
+            <column name="ma_lop" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ten_lop" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20230418165800-10" author="binhht">
+        <createTable tableName="lop_nguoi_dung">
+            <column name="ma_lop" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_nguoi_dung" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="chuc_danh" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="ma_lop"
+                                 baseTableName="lop_nguoi_dung"
+                                 constraintName="fk_lop_nguoi_dung_ma_lop"
+                                 referencedColumnNames="ma_lop"
+                                 referencedTableName="lop"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_nguoi_dung"
+                                 baseTableName="lop_nguoi_dung"
+                                 constraintName="fk_lop_nguoi_dung_ma_nguoi_dung"
+                                 referencedColumnNames="ma_nguoi_dung"
+                                 referencedTableName="nguoi_dung"/>
+    </changeSet>
+
+    <changeSet id="20230418165800-11" author="binhht">
+        <createTable tableName="lich_su_dung">
+            <column name="ma_lich_su_dung" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_phong" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_lop" type="bigint"/>
+            <column name="ma_nguoi_dung" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thoi_gian_bat_dau" type="timestamp(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thoi_gian_su_dung" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="ma_lop"
+                                 baseTableName="lich_su_dung"
+                                 constraintName="fk_lich_su_dung_ma_lop"
+                                 referencedColumnNames="ma_lop"
+                                 referencedTableName="lop"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_nguoi_dung"
+                                 baseTableName="lich_su_dung"
+                                 constraintName="fk_lich_su_dung_ma_nguoi_dung"
+                                 referencedColumnNames="ma_nguoi_dung"
+                                 referencedTableName="nguoi_dung"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_phong"
+                                 baseTableName="lich_su_dung"
+                                 constraintName="fk_lich_su_dung_ma_phong_may"
+                                 referencedColumnNames="ma_phong"
+                                 referencedTableName="phong_may"/>
+    </changeSet>
+
+    <changeSet id="20230418165800-12" author="binhht">
+        <createTable tableName="phan_quyen_quyen">
+            <column name="ma" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_phan_quyen" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_quyen" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp(3)" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="ma_phan_quyen"
+                                 baseTableName="phan_quyen_quyen"
+                                 constraintName="fk_phan_quyen_quyen_ma_phan_quyen"
+                                 referencedColumnNames="ma_phan_quyen"
+                                 referencedTableName="phan_quyen"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_quyen"
+                                 baseTableName="phan_quyen_quyen"
+                                 constraintName="fk_phan_quyen_quyen_ma_quyen"
+                                 referencedColumnNames="ma_quyen"
+                                 referencedTableName="quyen"/>
+    </changeSet>
+
+    <changeSet id="20230418165800-13" author="binhht" dbms="mysql">
         <loadData file="config/liquibase/data/permissions.csv"
                   separator=";"
-                  tableName="permissions"/>
+                  tableName="quyen"/>
         <loadData file="config/liquibase/data/roles.csv"
                   separator=";"
-                  tableName="roles"/>
+                  tableName="phan_quyen"/>
         <loadData file="config/liquibase/data/role_permissions.csv"
                   separator=";"
-                  tableName="role_permissions"/>
+                  tableName="phan_quyen_quyen"/>
         <loadData file="config/liquibase/data/users.csv"
                   separator=";"
-                  tableName="users"/>
-        <loadData file="config/liquibase/data/group_users.csv"
-                  separator=";"
-                  tableName="group_users"/>
+                  tableName="nguoi_dung"/>
     </changeSet>
 </databaseChangeLog>
