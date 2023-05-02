@@ -4,6 +4,7 @@ import com.nals.tf7.domain.Lab;
 import com.nals.tf7.dto.v1.request.LabReq;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -18,7 +19,9 @@ public interface LabMapper {
 
     LabMapper INSTANCE = Mappers.getMapper(LabMapper.class);
 
-    Lab toLab(LabReq req);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "manager", ignore = true)
+    Lab toEntity(LabReq req);
 
     default Long fromInstant(Instant instant) {
         return DateHelper.toMillis(instant);

@@ -42,7 +42,7 @@ public class Schedule
 
     @ManyToOne
     @JoinColumn(name = "ma_lop")
-    private Class pClass;
+    private ClassEntity classEntity;
 
     @ManyToOne
     @JoinColumn(name = "ma_nguoi_dung", nullable = false)

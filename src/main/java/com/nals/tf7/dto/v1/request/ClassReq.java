@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
 @Builder
@@ -20,16 +16,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LabReq {
-
-    private String description;
-    private String avatar;
-
-    @NotNull
-    private Long manager;
-
-    @NotEmpty
-    @NotNull
-    @NotBlank
+public class ClassReq {
     private String name;
 }

@@ -23,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "lop")
-public class Class
+public class ClassEntity
     extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
