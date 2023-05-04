@@ -37,6 +37,16 @@ public final class ErrorConstants {
 
     public static final String FILE_SIZE_IS_NOT_ALLOW = "File size is not allow";
 
+    public static final String EMAIL_ALREADY_EXISTS = "Email already exists";
+
+    public static final String USER_NOT_FOUND = "User not found";
+
+    public static final String LAB_NOT_FOUND = "Lab not found";
+
+    public static final String COMPUTER_NOT_FOUND = "Computer not found";
+
+    public static final String ROLE_NOT_FOUND = "Role not found";
+
     private ErrorConstants() {
     }
 }

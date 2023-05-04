@@ -2,6 +2,7 @@ package com.nals.tf7.mapper.v1;
 
 import com.nals.tf7.domain.Lab;
 import com.nals.tf7.dto.v1.request.LabReq;
+import com.nals.tf7.dto.v1.response.LabRes;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,6 +23,8 @@ public interface LabMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "manager", ignore = true)
     Lab toEntity(LabReq req);
+
+    LabRes toLabRes(Lab lab);
 
     default Long fromInstant(Instant instant) {
         return DateHelper.toMillis(instant);

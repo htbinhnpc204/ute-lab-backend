@@ -2,6 +2,7 @@ package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.AuthBloc;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
+import com.nals.tf7.dto.v1.request.auth.RegisterReq;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.Validator;
 
 @RestController
@@ -26,8 +28,13 @@ public class AuthController
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody final LoginReq loginReq) {
+    public ResponseEntity<?> login(@Valid @RequestBody final LoginReq loginReq) {
         return ok(authBloc.authenticate(loginReq));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody final RegisterReq registerReq) {
+        return ok(authBloc.register(registerReq));
     }
 
     @GetMapping("/logout")

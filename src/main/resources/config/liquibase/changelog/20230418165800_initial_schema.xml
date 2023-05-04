@@ -114,9 +114,7 @@
             <column name="mat_khau" type="varchar(60)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ten_nguoi_dung" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="ten_nguoi_dung" type="varchar(255)"/>
             <column name="hinh_anh" type="varchar(255)"/>
             <column name="email" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
@@ -130,7 +128,7 @@
             <column name="ngon_ngu" type="varchar(6)" defaultValue="EN">
                 <constraints nullable="false"/>
             </column>
-            <column name="ma_phan_quyen" type="bigint">
+            <column name="ma_phan_quyen" type="bigint" defaultValue="4">
                 <constraints nullable="false"/>
             </column>
             <column name="trang_thai" type="boolean" defaultValueBoolean="true">

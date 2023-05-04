@@ -18,6 +18,7 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProfileRes {
     private Long id;
+    private String studentId;
     private String name;
     private Gender gender;
     private Long dob;

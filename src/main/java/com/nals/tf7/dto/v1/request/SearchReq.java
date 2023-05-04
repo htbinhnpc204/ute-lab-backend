@@ -25,6 +25,6 @@ public class SearchReq {
     private String sortType;
 
     public String getKeyword() {
-        return StringHelper.isNotBlank(keyword) ? keyword.trim() : null;
+        return StringHelper.isNotBlank(keyword) ? keyword.trim() : "";
     }
 }

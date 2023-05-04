@@ -90,6 +90,7 @@ public class WebSecurityConfiguration
                          "/api/**/users/reset-password/**",
                          "/api/**/key-expired").permitAll()
             .antMatchers("/api/**/auth/login",
+                         "/api/**/auth/register",
                          "/api/**/auth/login-social",
                          "/api/**/auth/refresh-token").permitAll()
             .antMatchers("/api/**").authenticated()

@@ -49,7 +49,8 @@ public class LabController
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateLab(@PathVariable final Long id, @RequestBody final LabReq labReq) {
-        return ok(labBloc.update(id, labReq));
+        labBloc.update(id, labReq);
+        return noContent();
     }
 
     @DeleteMapping("/{id}")

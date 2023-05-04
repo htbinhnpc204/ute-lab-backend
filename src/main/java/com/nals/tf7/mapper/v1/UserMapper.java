@@ -1,6 +1,8 @@
 package com.nals.tf7.mapper.v1;
 
 import com.nals.tf7.domain.User;
+import com.nals.tf7.dto.v1.request.UserReq;
+import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.dto.v1.response.user.ProfileRes;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
@@ -19,6 +21,10 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     ProfileRes toUserBasicInfoRes(User user);
+
+    User toEntity(UserReq req);
+
+    User toEntity(LoginReq req);
 
     default Long fromInstant(Instant instant) {
         return DateHelper.toMillis(instant);

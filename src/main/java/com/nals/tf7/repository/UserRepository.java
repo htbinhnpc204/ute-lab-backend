@@ -14,6 +14,8 @@ public interface UserRepository
 
     Optional<User> findOneByEmailAndActivatedIsTrue(String email);
 
+    boolean existsByEmail(String email);
+
     @Query("SELECT new User(u.id, u.email, u.name, u.phone, u.address, u.gender,"
         + "                 u.dob, u.avatar, u.role)"
         + " FROM User u"

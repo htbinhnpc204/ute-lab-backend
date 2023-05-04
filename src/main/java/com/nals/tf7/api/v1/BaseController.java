@@ -47,4 +47,8 @@ public class BaseController {
     public ResponseEntity<?> noContent() {
         return ResponseEntity.noContent().build();
     }
+
+    public ResponseEntity<?> badRequest() {
+        return ResponseEntity.badRequest().build();
+    }
 }

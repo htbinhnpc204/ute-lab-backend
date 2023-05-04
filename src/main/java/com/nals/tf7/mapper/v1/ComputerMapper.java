@@ -2,6 +2,7 @@ package com.nals.tf7.mapper.v1;
 
 import com.nals.tf7.domain.Computer;
 import com.nals.tf7.dto.v1.request.ComputerReq;
+import com.nals.tf7.dto.v1.response.ComputerRes;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +21,8 @@ public interface ComputerMapper {
 
     @Mapping(target = "lab", ignore = true)
     Computer toEntity(ComputerReq req);
+
+    ComputerRes toComputerRes(Computer computer);
 
     default Long fromInstant(Instant instant) {
         return DateHelper.toMillis(instant);

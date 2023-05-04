@@ -43,10 +43,10 @@ public class User
     @Column(name = "ma_sinh_vien", length = 13, unique = true)
     private String studentId;
 
-    @Column(name = "ten_nguoi_dung", nullable = false)
+    @Column(name = "ten_nguoi_dung")
     private String name;
 
-    @Column(name = "ngon_ngu", nullable = false)
+    @Column(name = "ngon_ngu", nullable = false, columnDefinition = "default 'EN'")
     private String langKey;
 
     @Column(name = "hinh_anh")
@@ -65,13 +65,13 @@ public class User
     private String address;
 
     @Enumerated(STRING)
-    @Column(name = "gioi_tinh", length = 20, nullable = false)
+    @Column(name = "gioi_tinh", length = 20, nullable = false, columnDefinition = "default 'NAM'")
     private Gender gender;
 
     @Column(name = "ngay_sinh")
     private Instant dob;
 
-    @Column(name = "trang_thai", nullable = false)
+    @Column(name = "trang_thai", nullable = false, columnDefinition = "default 'true'")
     private boolean activated;
 
     @OneToOne

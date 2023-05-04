@@ -3,6 +3,7 @@ package com.nals.tf7.bloc.v1;
 import com.nals.tf7.domain.Computer;
 import com.nals.tf7.dto.v1.request.ComputerReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
+import com.nals.tf7.dto.v1.response.ComputerRes;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.helpers.PaginationHelper;
 import com.nals.tf7.mapper.v1.ComputerMapper;
@@ -12,12 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.nals.tf7.config.ErrorConstants.COMPUTER_NOT_FOUND;
+import static com.nals.tf7.config.ErrorConstants.LAB_NOT_FOUND;
+
 @Transactional(readOnly = true)
 @Service
 public class ComputerBloc {
 
-    public static final String LAB_NOT_FOUND = "Lab not found";
-    public static final String COMPUTER_NOT_FOUND = "Computer not found";
     private final ComputerService computerService;
     private final LabService labService;
 
@@ -34,9 +36,10 @@ public class ComputerBloc {
         return computerService.save(computer);
     }
 
-    public Page<Computer> searchComputers(final SearchReq searchReq) {
+    public Page<ComputerRes> searchComputers(final SearchReq searchReq) {
         var pageable = PaginationHelper.generatePageRequest(searchReq);
-        return computerService.searchComputers(searchReq.getKeyword(), pageable);
+        return computerService.searchComputers(searchReq.getKeyword(), pageable)
+                              .map(ComputerMapper.INSTANCE::toComputerRes);
     }
 
     public Computer getById(final Long id) {

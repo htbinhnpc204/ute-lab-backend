@@ -3,6 +3,7 @@ package com.nals.tf7.bloc.v1;
 import com.nals.tf7.domain.Lab;
 import com.nals.tf7.dto.v1.request.LabReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
+import com.nals.tf7.dto.v1.response.LabRes;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.helpers.PaginationHelper;
 import com.nals.tf7.mapper.v1.LabMapper;
@@ -12,11 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.nals.tf7.config.ErrorConstants.LAB_NOT_FOUND;
+import static com.nals.tf7.config.ErrorConstants.USER_NOT_FOUND;
+
 @Transactional(readOnly = true)
 @Service
 public class LabBloc {
-    public static final String LAB_NOT_FOUND = "Lab not found";
-    public static final String USER_NOT_FOUND = "User not found";
     private final LabService labService;
     private final UserService userService;
 
@@ -33,9 +35,9 @@ public class LabBloc {
         return labService.save(lab);
     }
 
-    public Page<Lab> searchLabs(final SearchReq searchReq) {
+    public Page<LabRes> searchLabs(final SearchReq searchReq) {
         var pageable = PaginationHelper.generatePageRequest(searchReq);
-        return labService.searchLabs(searchReq.getKeyword(), pageable);
+        return labService.searchLabs(searchReq.getKeyword(), pageable).map(LabMapper.INSTANCE::toLabRes);
     }
 
     public Lab getById(final Long id) {
@@ -51,7 +53,7 @@ public class LabBloc {
         labFound.setAvatar(labReq.getAvatar());
         labFound.setDescription(labReq.getDescription());
         labFound.setManager(userService.getById(labReq.getManager())
-                                  .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
+                                       .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         return labService.save(labFound);
     }
 
