@@ -22,8 +22,8 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_SCHEMA:utelab}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Ho_Chi_Minh&createDatabaseIfNotExist=true
-    username: ${DB_USER:root}
+    url: jdbc:mysql://${DB_HOST:43.207.47.76}:${DB_PORT:3306}/${DB_SCHEMA:utelab}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Ho_Chi_Minh&createDatabaseIfNotExist=true
+    username: ${DB_USER:admin}
     password: ${DB_PASS:Binhht@123}
     hikari:
       poolName: Hikari
