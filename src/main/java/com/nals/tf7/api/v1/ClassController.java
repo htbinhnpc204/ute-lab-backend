@@ -54,7 +54,7 @@ public class ClassController
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteClass(@PathVariable final Long id) {
-        if (id.equals(classBloc.deleteClass(id).getId())) {
+        if (id.equals(classBloc.deleteClass(id))) {
             return noContent();
         }
 

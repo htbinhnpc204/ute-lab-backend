@@ -3,6 +3,7 @@ package com.nals.tf7.bloc.v1;
 import com.nals.tf7.domain.ClassEntity;
 import com.nals.tf7.dto.v1.request.ClassReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
+import com.nals.tf7.dto.v1.response.ClassRes;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.helpers.PaginationHelper;
 import com.nals.tf7.mapper.v1.ClassMapper;
@@ -28,29 +29,32 @@ public class ClassBloc {
         return classService.save(aClass);
     }
 
-    public Page<ClassEntity> searchClasses(final SearchReq searchReq) {
+    public Page<ClassRes> searchClasses(final SearchReq searchReq) {
         var pageable = PaginationHelper.generatePageRequest(searchReq);
-        return classService.searchClasses(searchReq.getKeyword(), pageable);
+        return classService.searchClasses(searchReq.getKeyword(), pageable)
+                           .map(ClassMapper.INSTANCE::toRes);
     }
 
-    public ClassEntity getById(final Long id) {
-        return classService.getById(id)
-                           .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+    public ClassRes getById(final Long id) {
+        var result = classService.getById(id)
+                                 .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+
+        return ClassMapper.INSTANCE.toRes(result);
     }
 
     @Transactional
-    public ClassEntity update(final Long id, final ClassReq labReq) {
+    public ClassRes update(final Long id, final ClassReq labReq) {
         var classFound = classService.getById(id)
                                      .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
         classFound.setName(labReq.getName());
-        return classService.save(classFound);
+        return ClassMapper.INSTANCE.toRes(classService.save(classFound));
     }
 
     @Transactional
-    public ClassEntity deleteClass(final Long id) {
+    public Long deleteClass(final Long id) {
         var labFound = classService.getById(id)
                                    .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
         classService.delete(labFound);
-        return labFound;
+        return labFound.getId();
     }
 }

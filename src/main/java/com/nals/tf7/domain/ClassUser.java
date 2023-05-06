@@ -1,7 +1,6 @@
 package com.nals.tf7.domain;
 
-import com.nals.tf7.enums.GroupUserRole;
-import com.nals.tf7.enums.GroupUserType;
+import com.nals.tf7.enums.ClassUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +25,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "group_users")
+@Table(name = "lop_nguoi_dung")
 public class ClassUser
     extends AbstractAuditingEntity {
 
@@ -36,25 +35,20 @@ public class ClassUser
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "group_id", nullable = false)
-    private Long groupId;
+    @Column(name = "ma_lop", nullable = false)
+    private Long classId;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "ma_nguoi_dung", nullable = false)
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "group_type", nullable = false)
-    private GroupUserType type;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private GroupUserRole groupUserRole;
+    private ClassUserRole classUserRole;
 
-    public ClassUser(final Long groupId, final Long userId, final GroupUserType type,
-                     final GroupUserRole groupUserRole) {
-        this.groupId = groupId;
+    public ClassUser(final Long classId, final Long userId,
+                     final ClassUserRole classUserRole) {
+        this.classId = classId;
         this.userId = userId;
-        this.type = type;
-        this.groupUserRole = groupUserRole;
+        this.classUserRole = classUserRole;
     }
 }

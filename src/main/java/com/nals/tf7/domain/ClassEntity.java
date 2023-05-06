@@ -9,9 +9,15 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -35,4 +41,15 @@ public class ClassEntity
 
     @Column(name = "ten_lop", nullable = false, unique = true)
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "lop_nguoi_dung",
+        joinColumns = @JoinColumn(name = "ma_lop"),
+        inverseJoinColumns = @JoinColumn(name = "ma_nguoi_dung"))
+    private List<User> users;
+
+    public ClassEntity(final Long id, final String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

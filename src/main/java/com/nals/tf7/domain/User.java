@@ -11,13 +11,16 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -77,6 +80,9 @@ public class User
     @OneToOne
     @JoinColumn(name = "ma_phan_quyen", nullable = false)
     private Role role;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private List<ClassEntity> classes;
 
     public User(final Long id, final String email,
                 final String name, final String phone,
