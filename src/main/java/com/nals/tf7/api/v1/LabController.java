@@ -7,10 +7,10 @@ import com.nals.tf7.helpers.JsonHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +32,7 @@ public class LabController
     }
 
     @PostMapping
-    public ResponseEntity<?> createLab(@RequestBody final LabReq req) {
+    public ResponseEntity<?> createLab(@ModelAttribute final LabReq req) {
         return created(labBloc.createLab(req).getId());
     }
 
@@ -48,7 +48,7 @@ public class LabController
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateLab(@PathVariable final Long id, @RequestBody final LabReq labReq) {
+    public ResponseEntity<?> updateLab(@PathVariable final Long id, @ModelAttribute final LabReq labReq) {
         labBloc.update(id, labReq);
         return noContent();
     }

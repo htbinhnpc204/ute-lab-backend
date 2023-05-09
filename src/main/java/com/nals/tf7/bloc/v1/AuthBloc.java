@@ -4,6 +4,7 @@ import com.nals.tf7.domain.User;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.dto.v1.request.auth.RegisterReq;
 import com.nals.tf7.dto.v1.response.OAuthTokenRes;
+import com.nals.tf7.enums.Gender;
 import com.nals.tf7.errors.InvalidCredentialException;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.errors.ValidatorException;
@@ -90,9 +91,10 @@ public class AuthBloc {
     public OAuthTokenRes register(final RegisterReq req) {
         validateRegisterReq(req);
         User user = User.builder()
+                        .name(req.getEmail().split("@")[0])
                         .email(req.getEmail())
                         .password(encoder.encode(req.getPassword()))
-                        .gender(req.getGender())
+                        .gender(Gender.get(req.getGender()))
                         .langKey("EN")
                         .activated(true)
                         .role(roleService.findByName(ROLE_SINH_VIEN)

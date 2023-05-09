@@ -2,7 +2,6 @@ package com.nals.tf7.dto.v1.request.auth;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.nals.tf7.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RegisterReq {
     @NotNull
-    private Gender gender;
+    private String gender;
 
     @NotNull
     @NotBlank

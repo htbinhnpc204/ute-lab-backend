@@ -10,7 +10,7 @@ public enum Gender {
     NAM, NU, OTHER;
 
     public static Gender get(final String value) {
-        return Arrays.stream(values()).filter(gender -> gender.name().equals(value))
+        return Arrays.stream(values()).filter(gender -> gender.name().equalsIgnoreCase(value))
                      .findFirst()
                      .orElseThrow(() -> new ObjectNotFoundException("gender", GENDER_NOT_FOUND));
     }

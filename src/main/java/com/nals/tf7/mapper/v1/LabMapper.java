@@ -21,6 +21,7 @@ public interface LabMapper {
     LabMapper INSTANCE = Mappers.getMapper(LabMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
     @Mapping(target = "manager", ignore = true)
     Lab toEntity(LabReq req);
 
