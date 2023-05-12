@@ -56,7 +56,9 @@ public class LabBloc {
         var labFound = labService.getById(id)
                                  .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
         labFound.setName(labReq.getName());
-        labFound.setAvatar(handleFileUpload(labReq));
+        if (StringHelper.isNotBlank(handleFileUpload(labReq))) {
+            labFound.setAvatar(handleFileUpload(labReq));
+        }
         labFound.setDescription(labReq.getDescription());
         labFound.setManager(userService.getById(labReq.getManager())
                                        .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
