@@ -22,7 +22,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${DB_HOST:43.207.47.76}:${DB_PORT:3306}/${DB_SCHEMA:utelab}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Ho_Chi_Minh&createDatabaseIfNotExist=true
+    url: jdbc:mysql://${DB_HOST:18.181.181.223}:${DB_PORT:3306}/${DB_SCHEMA:utelab}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Ho_Chi_Minh&createDatabaseIfNotExist=true
     username: ${DB_USER:admin}
     password: ${DB_PASS:Binhht@123}
     hikari:
@@ -121,7 +121,7 @@ redis:
   password: ${REDIS_PASSWORD:""}
 
 minio:
-  endpoint: ${MINIO_HOST_NAME:http://localhost:9000}
-  access-key: ${MINIO_ACCESS_KEY:changit}
-  secret-key: ${MINIO_SECRET_KEY:changit}
-  bucket-name: ${MINIO_BUCKET_NAME:changeit}
+  endpoint: ${MINIO_HOST_NAME:http://18.181.181.223:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: ${MINIO_BUCKET_NAME:utelab}
