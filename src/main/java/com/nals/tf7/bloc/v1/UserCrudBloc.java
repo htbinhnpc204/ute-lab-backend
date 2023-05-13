@@ -49,6 +49,7 @@ public class UserCrudBloc {
 
     @Transactional
     public Long create(final UserReq req) {
+        validateUserReq(req, "create");
         User user = UserMapper.INSTANCE.toEntity(req);
         if (StringHelper.isNotBlank(handleFileUpload(req))) {
             user.setAvatar(handleFileUpload(req));
@@ -82,7 +83,7 @@ public class UserCrudBloc {
 
     @Transactional
     public Long update(final Long id, final UserReq req) {
-        validateUserReq(req);
+        validateUserReq(req, "update");
 
         var user = userService.getOneById(id)
                               .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
@@ -119,8 +120,8 @@ public class UserCrudBloc {
         return fileName;
     }
 
-    private void validateUserReq(final UserReq req) {
-        if (userService.existsByEmail(req.getEmail())) {
+    private void validateUserReq(final UserReq req, final String type) {
+        if (userService.existsByEmail(req.getEmail()) && type.equals("create")) {
             throw new ValidatorException(EMAIL_ALREADY_EXISTS, EMAIL, INVALID_DATA);
         }
     }
