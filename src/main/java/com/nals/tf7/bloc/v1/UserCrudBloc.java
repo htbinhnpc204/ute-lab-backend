@@ -40,6 +40,8 @@ public class UserCrudBloc {
     @Transactional
     public Long create(final UserReq req) {
         User user = UserMapper.INSTANCE.toEntity(req);
+        user.setLangKey("EN");
+        user.setActivated(true);
         user.setPassword(encoder.encode("password"));
         return userService.save(user).getId();
     }
