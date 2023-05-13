@@ -23,7 +23,6 @@ public interface UserMapper {
 
     ProfileRes toUserBasicInfoRes(User user);
 
-
     @Mapping(target = "role", ignore = true)
     User toEntity(UserReq req);
 
