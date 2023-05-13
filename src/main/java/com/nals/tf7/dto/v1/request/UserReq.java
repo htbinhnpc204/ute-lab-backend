@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,7 @@ import java.time.Instant;
 public class UserReq {
     private String studentId;
     private String name;
-    private String avatar;
+    private MultipartFile avatar;
     private String phone;
     private String address;
     private Gender gender;

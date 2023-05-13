@@ -35,7 +35,9 @@ public class LabBloc {
     @Transactional
     public Lab createLab(final LabReq labReq) {
         var lab = LabMapper.INSTANCE.toEntity(labReq);
-        lab.setAvatar(handleFileUpload(labReq));
+        if (StringHelper.isNotBlank(handleFileUpload(labReq))) {
+            lab.setAvatar(handleFileUpload(labReq));
+        }
         lab.setManager(userService.getById(labReq.getManager())
                                   .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         return labService.save(lab);

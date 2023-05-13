@@ -3,13 +3,12 @@ package com.nals.tf7.api.v1;
 import com.nals.tf7.bloc.v1.UserCrudBloc;
 import com.nals.tf7.dto.v1.request.UserReq;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +29,7 @@ public class UserCrudController
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Validated final UserReq registerReq) {
+    public ResponseEntity<?> create(@ModelAttribute final UserReq registerReq) {
         return created(userCrudBloc.create(registerReq));
     }
 
@@ -51,7 +50,7 @@ public class UserCrudController
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable final Long id, @RequestBody @Validated final UserReq req) {
+    public ResponseEntity<?> update(@PathVariable final Long id, @ModelAttribute final UserReq req) {
         return Objects.equals(userCrudBloc.update(id, req), id) ? noContent() : badRequest();
     }
 
