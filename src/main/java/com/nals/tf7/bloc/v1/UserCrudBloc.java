@@ -10,6 +10,7 @@ import com.nals.tf7.mapper.v1.UserMapper;
 import com.nals.tf7.service.v1.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import static com.nals.tf7.errors.ErrorCodes.INVALID_DATA;
 @Transactional(readOnly = true)
 public class UserCrudBloc {
     private final UserService userService;
+    private final PasswordEncoder encoder;
 
     public ProfileRes getProfile() {
         Long currentUserId = SecurityHelper.getCurrentUserId();
@@ -35,11 +37,14 @@ public class UserCrudBloc {
         return UserMapper.INSTANCE.toUserBasicInfoRes(userService.getBasicInfoById(currentUserId));
     }
 
+    @Transactional
     public Long create(final UserReq req) {
         User user = UserMapper.INSTANCE.toEntity(req);
+        user.setPassword(encoder.encode("password"));
         return userService.save(user).getId();
     }
 
+    @Transactional
     public void updateActivated(final Long id) {
         var user = userService.getOneById(id)
                               .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
@@ -58,6 +63,7 @@ public class UserCrudBloc {
                           .collect(Collectors.toList());
     }
 
+    @Transactional
     public Long update(final Long id, final UserReq req) {
         validateUserReq(req);
 
