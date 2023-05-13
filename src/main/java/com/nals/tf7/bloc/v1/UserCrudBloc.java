@@ -7,6 +7,7 @@ import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.errors.ValidatorException;
 import com.nals.tf7.helpers.SecurityHelper;
 import com.nals.tf7.mapper.v1.UserMapper;
+import com.nals.tf7.service.v1.RoleService;
 import com.nals.tf7.service.v1.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.nals.tf7.config.ErrorConstants.EMAIL;
 import static com.nals.tf7.config.ErrorConstants.EMAIL_ALREADY_EXISTS;
+import static com.nals.tf7.config.ErrorConstants.ROLE_NOT_FOUND;
 import static com.nals.tf7.config.ErrorConstants.USER_NOT_FOUND;
 import static com.nals.tf7.errors.ErrorCodes.INVALID_DATA;
 
@@ -28,6 +30,7 @@ import static com.nals.tf7.errors.ErrorCodes.INVALID_DATA;
 @Transactional(readOnly = true)
 public class UserCrudBloc {
     private final UserService userService;
+    private final RoleService roleService;
     private final PasswordEncoder encoder;
 
     public ProfileRes getProfile() {
@@ -42,7 +45,8 @@ public class UserCrudBloc {
         User user = UserMapper.INSTANCE.toEntity(req);
         user.setLangKey("EN");
         user.setActivated(true);
-        user.setRole(req.getRole());
+        user.setRole(roleService.findByName(req.getRole())
+                                .orElseThrow(() -> new NotFoundException(ROLE_NOT_FOUND)));
         user.setPassword(encoder.encode("password"));
         return userService.save(user).getId();
     }

@@ -6,6 +6,7 @@ import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.dto.v1.response.user.ProfileRes;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -22,6 +23,8 @@ public interface UserMapper {
 
     ProfileRes toUserBasicInfoRes(User user);
 
+
+    @Mapping(target = "role", ignore = true)
     User toEntity(UserReq req);
 
     User toEntity(LoginReq req);
