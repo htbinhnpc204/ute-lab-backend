@@ -42,35 +42,36 @@ public class ComputerBloc {
                               .map(ComputerMapper.INSTANCE::toComputerRes);
     }
 
-    public Computer getById(final Long id) {
-        return computerService.getById(id)
-                              .orElseThrow(() -> new NotFoundException(COMPUTER_NOT_FOUND));
+    public ComputerRes getById(final Long id) {
+        return ComputerMapper.INSTANCE
+            .toComputerRes(computerService.getById(id)
+                                          .orElseThrow(() -> new NotFoundException(COMPUTER_NOT_FOUND)));
     }
 
     @Transactional
-    public Computer update(final Long id, final ComputerReq req) {
+    public ComputerRes update(final Long id, final ComputerReq req) {
         var computerFound = computerService.getById(id)
                                            .orElseThrow(() -> new NotFoundException(COMPUTER_NOT_FOUND));
         computerFound.setName(req.getName());
         computerFound.setDescription(req.getDescription());
         computerFound.setLab(labService.getById(req.getLabId())
                                        .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
-        return computerService.save(computerFound);
+        return ComputerMapper.INSTANCE.toComputerRes(computerService.save(computerFound));
     }
 
     @Transactional
-    public Computer updateStatus(final Long id) {
+    public ComputerRes updateStatus(final Long id) {
         var computerFound = computerService.getById(id)
                                            .orElseThrow(() -> new NotFoundException(COMPUTER_NOT_FOUND));
         computerFound.setActivate(!computerFound.isActivate());
-        return computerService.save(computerFound);
+        return ComputerMapper.INSTANCE.toComputerRes(computerService.save(computerFound));
     }
 
     @Transactional
-    public Computer deleteLab(final Long id) {
+    public ComputerRes deleteLab(final Long id) {
         var computer = computerService.getById(id)
                                       .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
         computerService.delete(computer);
-        return computer;
+        return ComputerMapper.INSTANCE.toComputerRes(computer);
     }
 }
