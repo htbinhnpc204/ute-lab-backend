@@ -3,6 +3,8 @@ package com.nals.tf7.service.v1;
 import com.nals.tf7.domain.Schedule;
 import com.nals.tf7.repository.ScheduleRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,5 +16,9 @@ public class ScheduleService
 
     public ScheduleService(final ScheduleRepository repository) {
         super(repository);
+    }
+
+    public Page<Schedule> searchSchedule(final PageRequest req) {
+        return getRepository().findAll(req);
     }
 }
