@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -21,4 +23,5 @@ public class LabRes {
     private String description;
     private String avatar;
     private ProfileRes manager;
+    private List<ComputerRes> computers;
 }

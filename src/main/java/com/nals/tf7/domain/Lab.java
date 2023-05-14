@@ -13,8 +13,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -48,6 +51,9 @@ public class Lab
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ma_nhan_vien", nullable = false)
     private User manager;
+
+    @OneToMany(mappedBy = "lab", fetch = FetchType.LAZY)
+    private List<Computer> computers;
 
     public Lab(final Long id, final String name,
                final String avatar, final String description) {
