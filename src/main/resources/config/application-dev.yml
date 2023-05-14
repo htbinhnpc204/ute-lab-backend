@@ -121,7 +121,7 @@ redis:
   password: ${REDIS_PASSWORD:""}
 
 minio:
-  endpoint: ${MINIO_HOST_NAME:http://18.181.181.223:9000}
-  access-key: ${MINIO_ACCESS_KEY:minioadmin}
-  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  endpoint: ${MINIO_HOST_NAME:https://play.min.io}
+  access-key: ${MINIO_ACCESS_KEY:Q3AM3UQ867SPQQA43P2F}
+  secret-key: ${MINIO_SECRET_KEY:zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG}
   bucket-name: ${MINIO_BUCKET_NAME:utelab}
