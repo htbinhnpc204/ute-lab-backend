@@ -54,7 +54,7 @@ public class LabBloc {
     }
 
     @Transactional
-    public Lab update(final Long id, final LabReq labReq) {
+    public LabRes update(final Long id, final LabReq labReq) {
         var labFound = labService.getById(id)
                                  .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
         labFound.setName(labReq.getName());
@@ -64,7 +64,7 @@ public class LabBloc {
         labFound.setDescription(labReq.getDescription());
         labFound.setManager(userService.getById(labReq.getManager())
                                        .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
-        return labService.save(labFound);
+        return LabMapper.INSTANCE.toLabRes(labService.save(labFound));
     }
 
     private String handleFileUpload(final LabReq labReq) {

@@ -17,6 +17,5 @@ import lombok.Setter;
 public class ComputerRes {
     private Long id;
     private String name;
-    private LabRes lab;
     private String description;
 }

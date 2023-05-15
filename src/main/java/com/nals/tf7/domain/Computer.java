@@ -45,6 +45,7 @@ public class Computer
     @Column(name = "trang_thai")
     private boolean activate;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ma_phong", nullable = false)
     private Lab lab;
