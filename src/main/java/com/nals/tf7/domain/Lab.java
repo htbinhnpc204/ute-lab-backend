@@ -52,6 +52,7 @@ public class Lab
     @JoinColumn(name = "ma_nhan_vien", nullable = false)
     private User manager;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "lab", fetch = FetchType.LAZY)
     private List<Computer> computers;
 

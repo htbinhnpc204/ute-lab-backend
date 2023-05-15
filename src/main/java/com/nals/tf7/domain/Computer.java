@@ -45,7 +45,7 @@ public class Computer
     @Column(name = "trang_thai")
     private boolean activate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ma_phong", nullable = false)
     private Lab lab;
 
