@@ -5,6 +5,7 @@ import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.response.ScheduleRes;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.helpers.PaginationHelper;
+import com.nals.tf7.helpers.SecurityHelper;
 import com.nals.tf7.mapper.v1.ScheduleMapper;
 import com.nals.tf7.service.v1.ClassService;
 import com.nals.tf7.service.v1.LabService;
@@ -34,7 +35,7 @@ public class ScheduleBloc {
         var schedule = ScheduleMapper.INSTANCE.toEntity(scheduleReq);
         schedule.setLab(labService.getById(scheduleReq.getLabId())
                                   .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
-        schedule.setUser(userService.getById(scheduleReq.getUserId())
+        schedule.setUser(userService.getById(SecurityHelper.getCurrentUserId())
                                     .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         schedule.setClassEntity(classService.getById(scheduleReq.getClassId())
                                             .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
@@ -58,7 +59,7 @@ public class ScheduleBloc {
                                            .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND));
         scheduleFound.setLab(labService.getById(scheduleReq.getLabId())
                                        .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
-        scheduleFound.setUser(userService.getById(scheduleReq.getUserId())
+        scheduleFound.setUser(userService.getById(SecurityHelper.getCurrentUserId())
                                          .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         scheduleFound.setClassEntity(classService.getById(scheduleReq.getClassId())
                                                  .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));

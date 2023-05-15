@@ -21,7 +21,6 @@ import java.time.Instant;
 public class ScheduleReq {
     private Long labId;
     private Long classId;
-    private Long userId;
     private Instant timeStart;
     private Integer timeUse;
 }
