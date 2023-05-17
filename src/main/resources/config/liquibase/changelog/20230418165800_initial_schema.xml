@@ -249,7 +249,7 @@
             <column name="ma_lop" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ten_lop" type="bigint">
+            <column name="ten_lop" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
