@@ -5,6 +5,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="20230514214700-1" author="binhht">
-        <dropNotNullConstraint tableName="lich_su_dung" columnName="ma_nguoi_dung" />
+        <dropNotNullConstraint tableName="lich_su_dung" columnDataType="bigint" columnName="ma_nguoi_dung" />
     </changeSet>
 </databaseChangeLog>
