@@ -91,6 +91,7 @@ Desktop.ini
 ######################
 .DS_Store
 .svn
+.env
 
 # Thumbnails
 ._*
@@ -109,6 +110,7 @@ Desktop.ini
 # Logs
 ######################
 *.log*
+logs/
 
 ######################
 # Others
