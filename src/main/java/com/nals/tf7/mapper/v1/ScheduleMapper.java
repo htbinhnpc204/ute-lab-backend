@@ -5,6 +5,7 @@ import com.nals.tf7.dto.v1.request.ScheduleReq;
 import com.nals.tf7.dto.v1.response.ScheduleRes;
 import com.nals.tf7.helpers.DateHelper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -18,6 +19,8 @@ import java.time.Instant;
 public interface ScheduleMapper {
     ScheduleMapper INSTANCE = Mappers.getMapper(ScheduleMapper.class);
 
+    @Mapping(target = "register", source = "user")
+    @Mapping(target = "classRes", source = "classEntity")
     ScheduleRes toRes(Schedule user);
 
     Schedule toEntity(ScheduleReq req);
