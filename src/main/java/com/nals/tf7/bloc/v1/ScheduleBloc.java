@@ -39,7 +39,7 @@ public class ScheduleBloc {
                                     .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         schedule.setClassEntity(classService.getById(scheduleReq.getClassId())
                                             .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
-        return ScheduleMapper.INSTANCE.toRes(schedule);
+        return ScheduleMapper.INSTANCE.toRes(scheduleService.save(schedule));
     }
 
     public Page<ScheduleRes> searchSchedule(final SearchReq searchReq) {

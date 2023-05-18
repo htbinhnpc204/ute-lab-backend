@@ -52,9 +52,9 @@ public class ClassBloc {
 
     @Transactional
     public Long deleteClass(final Long id) {
-        var labFound = classService.getById(id)
+        var classFound = classService.getById(id)
                                    .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
-        classService.delete(labFound);
-        return labFound.getId();
+        classService.delete(classFound);
+        return classFound.getId();
     }
 }
