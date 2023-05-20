@@ -33,6 +33,7 @@ public class ClassUser
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ma_lop_nguoi_dung")
     private Long id;
 
     @Column(name = "ma_lop", nullable = false)

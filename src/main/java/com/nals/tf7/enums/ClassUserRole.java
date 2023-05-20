@@ -7,14 +7,11 @@ import java.util.Arrays;
 import static com.nals.tf7.errors.ErrorCodes.GROUP_USER_ROLE_NOT_FOUND;
 
 public enum ClassUserRole {
-    PM_PO("PM/PO"), APO("APO"), SM("SM"), MEMBER("MEMBER"), NON_TECH("NON_TECH");
-
-    ClassUserRole(final String value) {
-    }
+    GIANG_VIEN, LOP_TRUONG, BI_THU, THANH_VIEN;
 
     public static ClassUserRole get(final String value) {
         return Arrays.stream(values())
-                     .filter(role -> role.name().equals(value))
+                     .filter(role -> role.name().equalsIgnoreCase(value))
                      .findFirst()
                      .orElseThrow(() -> new ObjectNotFoundException("groupUserRole", GROUP_USER_ROLE_NOT_FOUND));
     }
