@@ -265,13 +265,16 @@
 
     <changeSet id="20230418165800-10" author="binhht">
         <createTable tableName="lop_nguoi_dung">
-            <column name="ma_lop" type="bigint" autoIncrement="${autoIncrement}">
+            <column name="ma_lop_nguoi_dung" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_lop" type="bigint">
+                <constraints nullable="false"/>
             </column>
             <column name="ma_nguoi_dung" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="chuc_danh" type="bigint">
+            <column name="chuc_danh" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">

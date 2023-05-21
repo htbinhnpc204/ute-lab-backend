@@ -1,6 +1,8 @@
 package com.nals.tf7.repository;
 
+import com.nals.tf7.domain.ClassEntity;
 import com.nals.tf7.domain.ClassUser;
+import com.nals.tf7.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +14,7 @@ import java.util.Optional;
 public interface ClassUserRepository
     extends JpaRepository<ClassUser, Long> {
 
-    Page<ClassUser> getAllByClassIdOrderByClassUserRoleAsc(Long classId, Pageable pageable);
+    Page<ClassUser> getAllByClassEntityOrderByRoleAsc(ClassEntity classEntity, Pageable pageable);
 
-    Optional<ClassUser> findByClassIdAndUserId(Long classId, Long userId);
+    Optional<ClassUser> findByClassEntityAndUser(ClassEntity classEntity, User user);
 }

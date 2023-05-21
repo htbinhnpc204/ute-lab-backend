@@ -48,10 +48,12 @@ public class Lab
     @Column(name = "hinh_anh")
     private String avatar;
 
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ma_nhan_vien", nullable = false)
     private User manager;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "lab")
     private List<Computer> computers;
 

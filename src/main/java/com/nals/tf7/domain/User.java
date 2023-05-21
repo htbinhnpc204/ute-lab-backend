@@ -81,6 +81,7 @@ public class User
     @JoinColumn(name = "ma_phan_quyen", nullable = false)
     private Role role;
 
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<ClassEntity> classes;
 

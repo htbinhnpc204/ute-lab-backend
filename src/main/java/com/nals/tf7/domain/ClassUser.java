@@ -14,6 +14,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -36,20 +38,15 @@ public class ClassUser
     @Column(name = "ma_lop_nguoi_dung")
     private Long id;
 
-    @Column(name = "ma_lop", nullable = false)
-    private Long classId;
+    @OneToOne
+    @JoinColumn(name = "ma_lop", nullable = false)
+    private ClassEntity classEntity;
 
-    @Column(name = "ma_nguoi_dung", nullable = false)
-    private Long userId;
+    @OneToOne
+    @JoinColumn(name = "ma_nguoi_dung", nullable = false)
+    private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private ClassUserRole classUserRole;
-
-    public ClassUser(final Long classId, final Long userId,
-                     final ClassUserRole classUserRole) {
-        this.classId = classId;
-        this.userId = userId;
-        this.classUserRole = classUserRole;
-    }
+    @Column(name = "chuc_danh", nullable = false)
+    private ClassUserRole role;
 }

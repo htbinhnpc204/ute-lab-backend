@@ -1,6 +1,7 @@
 package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.ClassUserBloc;
+import com.nals.tf7.dto.v1.request.ClassUserReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.helpers.JsonHelper;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class ClassUserController
     }
 
     @PostMapping
-    public ResponseEntity<?> addUserToClass(@PathVariable final Long classId, @RequestBody final Long userId) {
-        return created(classUserBloc.addUserToClass(classId, userId));
+    public ResponseEntity<?> addUserToClass(@PathVariable final Long classId, @RequestBody final ClassUserReq req) {
+        return created(classUserBloc.addUserToClass(classId, req));
     }
 
     @GetMapping
