@@ -21,7 +21,7 @@ public class ClassUserService
 
     public Page<ClassUser> getAllByClassId(final Long classId, final PageRequest req) {
         log.info("Fetch all user by class id #{} and data #{}", classId, req);
-        return getRepository().getAllByClassIdAndOrderByClassUserRoleAsc(classId, req);
+        return getRepository().getAllByClassIdOrderByClassUserRoleAsc(classId, req);
     }
 
     public Optional<ClassUser> findByClassIdAndUserId(final Long classId, final Long userId) {

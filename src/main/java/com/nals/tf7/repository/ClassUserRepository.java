@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ClassUserRepository
     extends JpaRepository<ClassUser, Long> {
 
-    Page<ClassUser> getAllByClassIdAndOrderByClassUserRoleAsc(Long classId, Pageable pageable);
+    Page<ClassUser> getAllByClassIdOrderByClassUserRoleAsc(Long classId, Pageable pageable);
 
     Optional<ClassUser> findByClassIdAndUserId(Long classId, Long userId);
 }
