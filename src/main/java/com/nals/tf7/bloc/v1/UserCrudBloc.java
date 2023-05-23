@@ -1,11 +1,13 @@
 package com.nals.tf7.bloc.v1;
 
 import com.nals.tf7.domain.User;
+import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.request.UserReq;
 import com.nals.tf7.dto.v1.response.user.ProfileRes;
 import com.nals.tf7.errors.FileException;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.errors.ValidatorException;
+import com.nals.tf7.helpers.PaginationHelper;
 import com.nals.tf7.helpers.SecurityHelper;
 import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.mapper.v1.UserMapper;
@@ -15,13 +17,12 @@ import com.nals.tf7.service.v1.RoleService;
 import com.nals.tf7.service.v1.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.nals.tf7.config.ErrorConstants.EMAIL;
 import static com.nals.tf7.config.ErrorConstants.EMAIL_ALREADY_EXISTS;
@@ -76,9 +77,9 @@ public class UserCrudBloc {
         return UserMapper.INSTANCE.toUserBasicInfoRes(user);
     }
 
-    public List<ProfileRes> fetchAll() {
-        return userService.fetchAll().stream().map(UserMapper.INSTANCE::toUserBasicInfoRes)
-                          .collect(Collectors.toList());
+    public Page<ProfileRes> searchUsers(final SearchReq req) {
+        var pageable = PaginationHelper.generatePageRequest(req);
+        return userService.searchUsers(req.getKeyword(), pageable).map(UserMapper.INSTANCE::toUserBasicInfoRes);
     }
 
     @Transactional
