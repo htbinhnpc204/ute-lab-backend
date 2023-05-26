@@ -66,11 +66,11 @@
     </changeSet>
 
     <changeSet id="20230418165800-3" author="binhht">
-        <createTable tableName="quyen">
-            <column name="ma_quyen" type="bigint" autoIncrement="${autoIncrement}">
+        <createTable tableName="hanh_dong">
+            <column name="ma_hanh_dong" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ten_quyen" type="varchar(50)">
+            <column name="ten_hanh_dong" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -85,11 +85,11 @@
     </changeSet>
 
     <changeSet id="20230418165800-4" author="binhht">
-        <createTable tableName="phan_quyen">
-            <column name="ma_phan_quyen" type="bigint" autoIncrement="${autoIncrement}">
+        <createTable tableName="quyen">
+            <column name="ma_quyen" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ten_phan_quyen" type="varchar(50)">
+            <column name="ten_quyen" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="varchar(255)">
@@ -128,7 +128,7 @@
             <column name="ngon_ngu" type="varchar(6)" defaultValue="EN">
                 <constraints nullable="false"/>
             </column>
-            <column name="ma_phan_quyen" type="bigint" defaultValue="4">
+            <column name="ma_quyen" type="bigint" defaultValue="4">
                 <constraints nullable="false"/>
             </column>
             <column name="trang_thai" type="boolean" defaultValueBoolean="true">
@@ -144,11 +144,11 @@
             <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="ma_phan_quyen"
+        <addForeignKeyConstraint baseColumnNames="ma_quyen"
                                  baseTableName="nguoi_dung"
                                  constraintName="fk_nguoi_dung_ma_quyen"
-                                 referencedColumnNames="ma_phan_quyen"
-                                 referencedTableName="phan_quyen"/>
+                                 referencedColumnNames="ma_quyen"
+                                 referencedTableName="quyen"/>
     </changeSet>
 
     <changeSet id="20230418165800-6" author="binhht">
@@ -214,11 +214,14 @@
     </changeSet>
 
     <changeSet id="20230418165800-8" author="binhht">
-        <createTable tableName="bao_loi">
-            <column name="ma_bao_loi" type="bigint" autoIncrement="${autoIncrement}">
+        <createTable tableName="may_tinh_loi">
+            <column name="ma_loi" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="ma_may" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_nguoi_dung" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="mo_ta" type="varchar(255)">
@@ -238,10 +241,16 @@
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="ma_may"
-                                 baseTableName="bao_loi"
-                                 constraintName="fk_bao_loi_ma_may"
+                                 baseTableName="may_tinh_loi"
+                                 constraintName="fk_may_tinh_loi_ma_may"
                                  referencedColumnNames="ma_may"
                                  referencedTableName="may_tinh"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_nguoi_dung"
+                                 baseTableName="may_tinh_loi"
+                                 constraintName="fk_may_tinh_loi_ma_nguoi_dung"
+                                 referencedColumnNames="ma_nguoi_dung"
+                                 referencedTableName="nguoi_dung"/>
     </changeSet>
 
     <changeSet id="20230418165800-9" author="binhht">
@@ -264,8 +273,8 @@
     </changeSet>
 
     <changeSet id="20230418165800-10" author="binhht">
-        <createTable tableName="lop_nguoi_dung">
-            <column name="ma_lop_nguoi_dung" type="bigint" autoIncrement="${autoIncrement}">
+        <createTable tableName="chi_tiet_lop">
+            <column name="ma_chi_tiet_lop" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="ma_lop" type="bigint">
@@ -288,14 +297,14 @@
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="ma_lop"
-                                 baseTableName="lop_nguoi_dung"
-                                 constraintName="fk_lop_nguoi_dung_ma_lop"
+                                 baseTableName="chi_tiet_lop"
+                                 constraintName="fk_chi_tiet_lop_ma_lop"
                                  referencedColumnNames="ma_lop"
                                  referencedTableName="lop"/>
 
         <addForeignKeyConstraint baseColumnNames="ma_nguoi_dung"
-                                 baseTableName="lop_nguoi_dung"
-                                 constraintName="fk_lop_nguoi_dung_ma_nguoi_dung"
+                                 baseTableName="chi_tiet_lop"
+                                 constraintName="fk_chi_tiet_lop_ma_nguoi_dung"
                                  referencedColumnNames="ma_nguoi_dung"
                                  referencedTableName="nguoi_dung"/>
     </changeSet>
@@ -348,11 +357,11 @@
     </changeSet>
 
     <changeSet id="20230418165800-12" author="binhht">
-        <createTable tableName="phan_quyen_quyen">
+        <createTable tableName="chi_tiet_quyen">
             <column name="ma" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ma_phan_quyen" type="bigint">
+            <column name="ma_hanh_dong" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="ma_quyen" type="bigint">
@@ -368,29 +377,29 @@
             <column name="last_modified_date" type="timestamp(3)" defaultValueDate="${now}"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="ma_phan_quyen"
-                                 baseTableName="phan_quyen_quyen"
-                                 constraintName="fk_phan_quyen_quyen_ma_phan_quyen"
-                                 referencedColumnNames="ma_phan_quyen"
-                                 referencedTableName="phan_quyen"/>
-
         <addForeignKeyConstraint baseColumnNames="ma_quyen"
-                                 baseTableName="phan_quyen_quyen"
-                                 constraintName="fk_phan_quyen_quyen_ma_quyen"
+                                 baseTableName="chi_tiet_quyen"
+                                 constraintName="fk_chi_tiet_quyen_ma_quyen"
                                  referencedColumnNames="ma_quyen"
                                  referencedTableName="quyen"/>
+
+        <addForeignKeyConstraint baseColumnNames="ma_hanh_dong"
+                                 baseTableName="chi_tiet_quyen"
+                                 constraintName="fk_chi_tiet_quyen_ma_hanh_dong"
+                                 referencedColumnNames="ma_hanh_dong"
+                                 referencedTableName="hanh_dong"/>
     </changeSet>
 
     <changeSet id="20230418165800-13" author="binhht" dbms="mysql">
         <loadData file="config/liquibase/data/permissions.csv"
                   separator=";"
-                  tableName="quyen"/>
+                  tableName="hanh_dong"/>
         <loadData file="config/liquibase/data/roles.csv"
                   separator=";"
-                  tableName="phan_quyen"/>
+                  tableName="quyen"/>
         <loadData file="config/liquibase/data/role_permissions.csv"
                   separator=";"
-                  tableName="phan_quyen_quyen"/>
+                  tableName="chi_tiet_quyen"/>
         <loadData file="config/liquibase/data/users.csv"
                   separator=";"
                   tableName="nguoi_dung"/>
