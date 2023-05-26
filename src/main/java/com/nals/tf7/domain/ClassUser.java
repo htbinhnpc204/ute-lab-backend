@@ -27,7 +27,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "lop_nguoi_dung")
+@Table(name = "chi_tiet_lop")
 public class ClassUser
     extends AbstractAuditingEntity {
 
@@ -35,7 +35,7 @@ public class ClassUser
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ma_lop_nguoi_dung")
+    @Column(name = "ma_chi_tiet_lop")
     private Long id;
 
     @OneToOne

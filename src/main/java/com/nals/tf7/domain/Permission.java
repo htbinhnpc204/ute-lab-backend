@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "quyen")
+@Table(name = "hanh_dong")
 public class Permission
     extends AbstractAuditingEntity {
 
@@ -29,10 +29,10 @@ public class Permission
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ma_quyen")
+    @Column(name = "ma_hanh_dong")
     private Long id;
 
-    @Column(name = "ten_quyen", length = 50, unique = true)
+    @Column(name = "ten_hanh_dong", length = 50, unique = true)
     private String name;
 
     public Permission(final String name) {

@@ -43,7 +43,7 @@ public class ClassEntity
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "lop_nguoi_dung",
+    @JoinTable(name = "chi_tiet_lop",
         joinColumns = @JoinColumn(name = "ma_lop"),
         inverseJoinColumns = @JoinColumn(name = "ma_nguoi_dung"))
     private List<User> users;

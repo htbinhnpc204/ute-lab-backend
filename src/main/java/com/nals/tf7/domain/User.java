@@ -78,7 +78,7 @@ public class User
     private boolean activated;
 
     @OneToOne
-    @JoinColumn(name = "ma_phan_quyen", nullable = false)
+    @JoinColumn(name = "ma_quyen", nullable = false)
     private Role role;
 
     @ToString.Exclude
