@@ -101,6 +101,7 @@ public class UserCrudBloc {
         return userService.save(user).getId();
     }
 
+    @Transactional
     public void delete(final Long id) {
         var user = userService.getOneById(id)
                               .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
