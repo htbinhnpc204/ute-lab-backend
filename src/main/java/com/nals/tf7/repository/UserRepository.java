@@ -18,7 +18,11 @@ public interface UserRepository
 
     Optional<User> findOneByEmailAndActivatedIsTrue(String email);
 
+    Optional<User> findOneByStudentIdAndActivatedIsTrue(String studentId);
+
     boolean existsByEmail(String email);
+
+    boolean existsByStudentId(String studentId);
 
     @Query("SELECT new User(u.id, u.email, u.name, u.phone, u.address, u.gender,"
         + "                 u.dob, u.avatar, u.role)"

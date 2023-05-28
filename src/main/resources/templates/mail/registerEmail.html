@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:lang="${user.langKey}" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <title th:text="#{email.register.title}"></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -7,17 +7,17 @@
 </head>
 
 <body>
-<p th:text="#{email.register.greeting(${user.email})}"></p>
+<p th:text="#{email.register.greeting(${user.name})}"></p>
 <p th:text="#{email.register.thank}"></p>
 <p th:text="#{email.register.text1}"></p>
 <p>
-  <a th:with="url=(@{|${consoleUrl}/activate?activationKey=${user.activationKey}|})" th:href="${url}" th:text="${url}"></a>
+  <b th:text="${password}"></b>
 </p>
-<p th:text="#{email.register.text2(${#dates.format(user.activationExpiredDate, 'dd-MM-yyyy HH:mm')})}"></p>
-<p th:text="#{email.register.text3}"></p>
+<p style="color: red; font-weight: bold"  th:text="#{email.register.text2}"></p>
+<p style="color: red; font-weight: bold" th:text="#{email.register.text3}"></p>
 <p th:text="#{email.register.text4}"></p>
 <p>
-  <a th:href="${consoleUrl}" th:text="${consoleUrl}"></a>
+  <a th:href="@{|${consoleUrl}/sign-in|}" th:text="@{|${consoleUrl}/sign-in|}"></a>
 </p>
 </body>
 </html>

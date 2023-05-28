@@ -18,6 +18,10 @@ public class ClassService
         super(repository);
     }
 
+    public boolean existsByName(final String name) {
+        return getRepository().existsByName(name);
+    }
+
     public Page<ClassEntity> searchClasses(final String name, final PageRequest req) {
         return getRepository().findByNameContainingIgnoreCase(name, req);
     }

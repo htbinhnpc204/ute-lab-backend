@@ -47,6 +47,11 @@ public class ScheduleBloc {
         return scheduleService.searchSchedule(pageable).map(ScheduleMapper.INSTANCE::toRes);
     }
 
+    public Page<ScheduleRes> searchByLab(final SearchReq searchReq) {
+        var pageable = PaginationHelper.generatePageRequest(searchReq);
+        return scheduleService.searchSchedule(pageable).map(ScheduleMapper.INSTANCE::toRes);
+    }
+
     public ScheduleRes getById(final Long id) {
         return ScheduleMapper.INSTANCE
             .toRes(scheduleService.getById(id)

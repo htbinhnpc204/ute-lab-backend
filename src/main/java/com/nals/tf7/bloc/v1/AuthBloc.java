@@ -1,6 +1,7 @@
 package com.nals.tf7.bloc.v1;
 
 import com.nals.tf7.domain.User;
+import com.nals.tf7.dto.v1.request.auth.ForgotPasswordReq;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.dto.v1.request.auth.RegisterReq;
 import com.nals.tf7.dto.v1.response.OAuthTokenRes;
@@ -8,10 +9,13 @@ import com.nals.tf7.enums.Gender;
 import com.nals.tf7.errors.InvalidCredentialException;
 import com.nals.tf7.errors.NotFoundException;
 import com.nals.tf7.errors.ValidatorException;
+import com.nals.tf7.helpers.ExcelHelper;
+import com.nals.tf7.helpers.RandomHelper;
 import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.helpers.ValidatorHelper;
 import com.nals.tf7.security.DomainUserDetails;
 import com.nals.tf7.security.jwt.TokenProvider;
+import com.nals.tf7.service.v1.MailService;
 import com.nals.tf7.service.v1.RedisService;
 import com.nals.tf7.service.v1.RoleService;
 import com.nals.tf7.service.v1.UserService;
@@ -29,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.nals.tf7.config.Constants.COMMA;
@@ -48,6 +54,7 @@ public class AuthBloc {
     private static final int MINUTE_IN_SECOND = 3600;
     private static final int HOUR_IN_SECOND = MINUTE_IN_SECOND * 60;
     public static final String ROLE_SINH_VIEN = "ROLE_SINH_VIEN";
+    public static final String CLASS_MEMBER_XLSX = "ClassMember.xlsx";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -55,6 +62,7 @@ public class AuthBloc {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder encoder;
+    private final MailService mailService;
 
     @Transactional(readOnly = true)
     public OAuthTokenRes authenticate(final LoginReq loginReq) {
@@ -95,7 +103,7 @@ public class AuthBloc {
                         .email(req.getEmail())
                         .password(encoder.encode(req.getPassword()))
                         .gender(Gender.get(req.getGender()))
-                        .langKey("EN")
+                        .langKey("VI")
                         .activated(true)
                         .role(roleService.findByName(ROLE_SINH_VIEN)
                                          .orElseThrow(() -> new NotFoundException(ROLE_NOT_FOUND)))
@@ -110,6 +118,46 @@ public class AuthBloc {
         }
 
         return null;
+    }
+
+    @Transactional
+    public void forgotPassword(final ForgotPasswordReq req) {
+        String studentName;
+        try {
+            studentName = ExcelHelper.getFullNameByStudentId(CLASS_MEMBER_XLSX, req.getStudentId());
+            log.info(studentName);
+        } catch (IOException e) {
+            throw new NotFoundException("File not found: " + CLASS_MEMBER_XLSX);
+        }
+
+        if (StringHelper.isBlank(req.getStudentId())) {
+            throw new ValidatorException("Student id is required");
+        }
+
+        var user = userService.getOneByStudentId(req.getStudentId()).orElse(null);
+
+        if (Objects.isNull(user)) {
+            user = User.builder()
+                       .name(studentName)
+                       .studentId(req.getStudentId())
+                       .email(String.format("%s@sv.ute.udn.vn", req.getStudentId()))
+                       .langKey("VI")
+                       .gender(Gender.OTHER)
+                       .activated(true)
+                       .role(roleService.findByName(ROLE_SINH_VIEN)
+                                        .orElseThrow(() -> new NotFoundException(ROLE_NOT_FOUND)))
+                       .build();
+        }
+
+        if (!user.getName().equals(studentName)) {
+            user.setName(studentName);
+        }
+
+        String newPassword = RandomHelper.generatePassword();
+        user.setPassword(encoder.encode(newPassword));
+        user = userService.save(user);
+
+        mailService.sendRegisterEmail(user, newPassword);
     }
 
     public void logout(final HttpServletRequest request, final HttpServletResponse response) {

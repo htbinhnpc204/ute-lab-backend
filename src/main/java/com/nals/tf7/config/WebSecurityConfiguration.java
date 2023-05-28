@@ -92,7 +92,8 @@ public class WebSecurityConfiguration
             .antMatchers("/api/**/auth/login",
                          "/api/**/auth/register",
                          "/api/**/auth/login-social",
-                         "/api/**/auth/refresh-token").permitAll()
+                         "/api/**/auth/refresh-token",
+                         "/api/**/auth/password").permitAll()
             .antMatchers("/api/**").authenticated()
             .and()
             .apply(securityConfigurerAdapter());

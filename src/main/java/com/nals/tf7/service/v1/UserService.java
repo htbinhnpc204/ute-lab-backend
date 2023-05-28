@@ -24,6 +24,10 @@ public class UserService
         return getRepository().existsByEmail(email);
     }
 
+    public boolean existsByStudentId(final String studentId) {
+        return getRepository().existsByStudentId(studentId);
+    }
+
     public User getBasicInfoById(final Long id) {
         log.info("Get basic info by id #{}", id);
         return getRepository().getBasicInfoById(id);
@@ -39,5 +43,10 @@ public class UserService
 
     public Optional<User> getOneById(final Long id) {
         return getRepository().findById(id);
+    }
+
+    public Optional<User> getOneByStudentId(final String studentId) {
+        log.info("Get user by student id #{}", studentId);
+        return getRepository().findOneByStudentIdAndActivatedIsTrue(studentId);
     }
 }

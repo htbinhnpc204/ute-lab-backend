@@ -1,6 +1,7 @@
 package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.AuthBloc;
+import com.nals.tf7.dto.v1.request.auth.ForgotPasswordReq;
 import com.nals.tf7.dto.v1.request.auth.LoginReq;
 import com.nals.tf7.dto.v1.request.auth.RegisterReq;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,12 @@ public class AuthController
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody final RegisterReq registerReq) {
         return ok(authBloc.register(registerReq));
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody final ForgotPasswordReq req) {
+        authBloc.forgotPassword(req);
+        return noContent();
     }
 
     @GetMapping("/logout")

@@ -35,6 +35,8 @@ import static com.nals.tf7.errors.ErrorCodes.INVALID_DATA;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserCrudBloc {
+    public static final String STUDENT_ID_ALREADY_EXISTS = "Student ID already exists";
+    public static final String STUDENT_ID = "student_id";
     private final UserService userService;
     private final RoleService roleService;
     private final MinioService minioService;
@@ -125,6 +127,10 @@ public class UserCrudBloc {
     private void validateUserReq(final UserReq req, final String type) {
         if (userService.existsByEmail(req.getEmail()) && type.equals("create")) {
             throw new ValidatorException(EMAIL_ALREADY_EXISTS, EMAIL, INVALID_DATA);
+        }
+
+        if (userService.existsByStudentId(req.getStudentId()) && type.equals("create")) {
+            throw new ValidatorException(STUDENT_ID_ALREADY_EXISTS, STUDENT_ID, INVALID_DATA);
         }
     }
 }
