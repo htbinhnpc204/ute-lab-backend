@@ -40,8 +40,8 @@ public class AuthController
 
     @PostMapping("/password")
     public ResponseEntity<?> forgotPassword(@Valid @RequestBody final ForgotPasswordReq req) {
-        authBloc.forgotPassword(req);
-        return noContent();
+
+        return ok(authBloc.forgotPassword(req));
     }
 
     @GetMapping("/logout")

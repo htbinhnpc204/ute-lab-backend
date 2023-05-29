@@ -121,7 +121,7 @@ public class AuthBloc {
     }
 
     @Transactional
-    public void forgotPassword(final ForgotPasswordReq req) {
+    public String forgotPassword(final ForgotPasswordReq req) {
         String studentName;
         try {
             studentName = ExcelHelper.getFullNameByStudentId(CLASS_MEMBER_XLSX, req.getStudentId());
@@ -158,6 +158,7 @@ public class AuthBloc {
         user = userService.save(user);
 
         mailService.sendRegisterEmail(user, newPassword);
+        return newPassword;
     }
 
     public void logout(final HttpServletRequest request, final HttpServletResponse response) {

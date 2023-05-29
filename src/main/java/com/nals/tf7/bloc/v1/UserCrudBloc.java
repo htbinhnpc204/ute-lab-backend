@@ -76,6 +76,7 @@ public class UserCrudBloc {
     public ProfileRes getOneById(final Long id) {
         var user = userService.getOneById(id)
                               .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+        log.info("user: #{}", user);
         return UserMapper.INSTANCE.toUserBasicInfoRes(user);
     }
 

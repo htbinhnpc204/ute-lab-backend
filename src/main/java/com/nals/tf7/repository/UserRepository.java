@@ -24,7 +24,7 @@ public interface UserRepository
 
     boolean existsByStudentId(String studentId);
 
-    @Query("SELECT new User(u.id, u.email, u.name, u.phone, u.address, u.gender,"
+    @Query("SELECT new User(u.id, u.email, u.studentId, u.name, u.phone, u.address, u.gender,"
         + "                 u.dob, u.avatar, u.role)"
         + " FROM User u"
         + " WHERE u.id = :id AND u.activated = TRUE")

@@ -85,12 +85,13 @@ public class User
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<ClassEntity> classes;
 
-    public User(final Long id, final String email,
+    public User(final Long id, final String email, final String studentId,
                 final String name, final String phone,
                 final String address, final Gender gender,
                 final Instant dob, final String avatar, final Role role) {
         this.id = id;
         this.email = email;
+        this.studentId = studentId;
         this.name = name;
         this.phone = phone;
         this.address = address;
