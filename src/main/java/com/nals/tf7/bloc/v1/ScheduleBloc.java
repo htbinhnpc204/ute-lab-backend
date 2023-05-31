@@ -119,18 +119,20 @@ public class ScheduleBloc {
                                        .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
         scheduleFound.setUser(userService.getById(SecurityHelper.getCurrentUserId())
                                          .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
-        scheduleFound.setClassEntity(classService.getById(scheduleReq.getClassId())
-                                                 .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
+        if (Objects.nonNull(scheduleReq.getClassId())) {
+            scheduleFound.setClassEntity(classService.getById(scheduleReq.getClassId())
+                                                .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
+        }
+
         scheduleFound.setTimeStart(scheduleReq.getTimeStart());
         scheduleFound.setTimeUse(scheduleReq.getTimeUse());
         return ScheduleMapper.INSTANCE.toRes(scheduleService.save(scheduleFound));
     }
 
     @Transactional
-    public ScheduleRes deleteSchedule(final Long id) {
+    public void deleteSchedule(final Long id) {
         var scheduleFound = scheduleService.getById(id)
                                            .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
         scheduleService.delete(scheduleFound);
-        return ScheduleMapper.INSTANCE.toRes(scheduleFound);
     }
 }
