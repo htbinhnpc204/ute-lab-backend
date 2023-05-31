@@ -44,8 +44,11 @@ public class ScheduleBloc {
                                   .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
         schedule.setUser(userService.getById(SecurityHelper.getCurrentUserId())
                                     .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
-        schedule.setClassEntity(classService.getById(scheduleReq.getClassId())
-                                            .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
+        if (Objects.nonNull(scheduleReq.getClassId())) {
+            schedule.setClassEntity(classService.getById(scheduleReq.getClassId())
+                                                .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
+        }
+
         schedule.setApproved(false);
         return ScheduleMapper.INSTANCE.toRes(scheduleService.save(schedule));
     }
