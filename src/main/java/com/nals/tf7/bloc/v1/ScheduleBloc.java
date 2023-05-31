@@ -3,6 +3,7 @@ package com.nals.tf7.bloc.v1;
 import com.nals.tf7.domain.ClassEntity;
 import com.nals.tf7.domain.Lab;
 import com.nals.tf7.dto.v1.request.ScheduleReq;
+import com.nals.tf7.dto.v1.request.ScheduleSearchReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.response.ScheduleRes;
 import com.nals.tf7.errors.NotFoundException;
@@ -72,22 +73,24 @@ public class ScheduleBloc {
                               .collect(Collectors.toList());
     }
 
-    public List<ScheduleRes> searchByLabAndClass(final Long labId, final Long classId) {
+    public Page<ScheduleRes> searchByLabAndClass(final ScheduleSearchReq req) {
         Lab lab = null;
         ClassEntity classEntity = null;
-        if (Objects.nonNull(labId)) {
-            lab = labService.getById(labId)
-                            .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
-        }
-        if (Objects.nonNull(classId)) {
-            classEntity = classService.getById(classId)
-                                      .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+        if (Objects.nonNull(req)) {
+            if (Objects.nonNull(req.getLabId())) {
+                lab = labService.getById(req.getLabId())
+                                .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
+            }
+            if (Objects.nonNull(req.getClassId())) {
+                classEntity = classService.getById(req.getClassId())
+                                          .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+            }
         }
 
-        return scheduleService.searchByLabAndClass(lab, classEntity)
-                              .stream()
-                              .map(ScheduleMapper.INSTANCE::toRes)
-                              .collect(Collectors.toList());
+        var pageReq = PaginationHelper.generatePageRequest(req);
+
+        return scheduleService.searchByLabAndClass(lab, classEntity, pageReq)
+                              .map(ScheduleMapper.INSTANCE::toRes);
     }
 
     public ScheduleRes getById(final Long id) {

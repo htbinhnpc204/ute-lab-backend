@@ -18,7 +18,7 @@ public interface ScheduleRepository
 
     List<Schedule> findAllByClassEntity(ClassEntity classEntity);
 
-    List<Schedule> findAllByLabAndClassEntity(Lab lab, ClassEntity classEntity);
+    Page<Schedule> findAllByLabAndClassEntity(Lab lab, ClassEntity classEntity, Pageable pageable);
 
     Page<Schedule> findAllByOrderByIdAsc(Pageable pageable);
 }

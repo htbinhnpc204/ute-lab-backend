@@ -32,9 +32,9 @@ public class ScheduleService
         return getRepository().findAllByClassEntity(classEntity);
     }
 
-    public List<Schedule> searchByLabAndClass(final Lab lab, final ClassEntity classEntity) {
+    public Page<Schedule> searchByLabAndClass(final Lab lab, final ClassEntity classEntity, final PageRequest req) {
         log.info("Search all by lab #{} and class #{}", lab, classEntity);
-        return getRepository().findAllByLabAndClassEntity(lab, classEntity);
+        return getRepository().findAllByLabAndClassEntity(lab, classEntity, req);
     }
 
     public Page<Schedule> searchSchedule(final PageRequest req) {

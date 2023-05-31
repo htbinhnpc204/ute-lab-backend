@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Validator;
 
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/schedules")
@@ -40,9 +39,7 @@ public class ScheduleController
     @GetMapping
     public ResponseEntity<?> fetchAll(@RequestParam final Map<String, Object> req) {
         var searchReq = JsonHelper.convertValue(req, ScheduleSearchReq.class);
-        return ok(scheduleBloc.searchByLabAndClass(Objects.requireNonNull(searchReq)
-                                                          .getLabId(),
-                                                   searchReq.getClassId()));
+        return ok(scheduleBloc.searchByLabAndClass(searchReq));
     }
 
     @GetMapping("/{id}")
