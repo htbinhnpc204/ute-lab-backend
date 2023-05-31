@@ -76,7 +76,7 @@ public class ScheduleBloc {
                               .collect(Collectors.toList());
     }
 
-    public Page<ScheduleRes> searchByLabAndClass(final ScheduleSearchReq req) {
+    public List<ScheduleRes> searchByLabAndClass(final ScheduleSearchReq req) {
         Lab lab = null;
         ClassEntity classEntity = null;
         if (Objects.nonNull(req)) {
@@ -93,7 +93,9 @@ public class ScheduleBloc {
         var pageReq = PaginationHelper.generatePageRequest(req);
 
         return scheduleService.searchByLabAndClass(lab, classEntity, pageReq)
-                              .map(ScheduleMapper.INSTANCE::toRes);
+            .stream()
+                              .map(ScheduleMapper.INSTANCE::toRes)
+            .collect(Collectors.toList());
     }
 
     public ScheduleRes getById(final Long id) {
