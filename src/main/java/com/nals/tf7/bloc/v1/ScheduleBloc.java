@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.nals.tf7.bloc.v1.ClassBloc.CLASS_NOT_FOUND;
 import static com.nals.tf7.config.ErrorConstants.LAB_NOT_FOUND;
 import static com.nals.tf7.config.ErrorConstants.USER_NOT_FOUND;
@@ -39,6 +42,7 @@ public class ScheduleBloc {
                                     .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
         schedule.setClassEntity(classService.getById(scheduleReq.getClassId())
                                             .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND)));
+        schedule.setApproved(false);
         return ScheduleMapper.INSTANCE.toRes(scheduleService.save(schedule));
     }
 
@@ -47,15 +51,47 @@ public class ScheduleBloc {
         return scheduleService.searchSchedule(pageable).map(ScheduleMapper.INSTANCE::toRes);
     }
 
-    public Page<ScheduleRes> searchByLab(final SearchReq searchReq) {
-        var pageable = PaginationHelper.generatePageRequest(searchReq);
-        return scheduleService.searchSchedule(pageable).map(ScheduleMapper.INSTANCE::toRes);
+    public List<ScheduleRes> searchByLab(final Long labId) {
+        var lab = labService.getById(labId)
+                            .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
+        return scheduleService.searchByLab(lab)
+                              .stream()
+                              .map(ScheduleMapper.INSTANCE::toRes)
+                              .collect(Collectors.toList());
+    }
+
+    public List<ScheduleRes> searchByClass(final Long classId) {
+        var classEntity = classService.getById(classId)
+                            .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+        return scheduleService.searchByClass(classEntity)
+                              .stream()
+                              .map(ScheduleMapper.INSTANCE::toRes)
+                              .collect(Collectors.toList());
+    }
+
+    public List<ScheduleRes> searchByLabAndClass(final Long labId, final Long classId) {
+        var lab = labService.getById(labId)
+                            .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
+
+        var classEntity = classService.getById(classId)
+                                      .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+        return scheduleService.searchByLabAndClass(lab, classEntity)
+                              .stream()
+                              .map(ScheduleMapper.INSTANCE::toRes)
+                              .collect(Collectors.toList());
     }
 
     public ScheduleRes getById(final Long id) {
         return ScheduleMapper.INSTANCE
             .toRes(scheduleService.getById(id)
                                   .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND)));
+    }
+
+    public void approveSchedule(final Long id) {
+        var scheduleFound = scheduleService.getById(id)
+                                           .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND));
+        scheduleFound.setApproved(true);
+        scheduleService.save(scheduleFound);
     }
 
     @Transactional

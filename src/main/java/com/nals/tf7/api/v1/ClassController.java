@@ -1,6 +1,7 @@
 package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.ClassBloc;
+import com.nals.tf7.bloc.v1.ScheduleBloc;
 import com.nals.tf7.dto.v1.request.ClassReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.helpers.JsonHelper;
@@ -25,10 +26,12 @@ public class ClassController
     extends BaseController {
 
     private final ClassBloc classBloc;
+    private final ScheduleBloc scheduleBloc;
 
-    public ClassController(final Validator validator, final ClassBloc classBloc) {
+    public ClassController(final Validator validator, final ClassBloc classBloc, final ScheduleBloc scheduleBloc) {
         super(validator);
         this.classBloc = classBloc;
+        this.scheduleBloc = scheduleBloc;
     }
 
     @PostMapping
@@ -45,6 +48,11 @@ public class ClassController
     @GetMapping("/{id}")
     public ResponseEntity<?> getOneClass(@PathVariable final Long id) {
         return ok(classBloc.getById(id));
+    }
+
+    @GetMapping("/{id}/schedules")
+    public ResponseEntity<?> getScheduleByClass(@PathVariable final Long id) {
+        return ok(scheduleBloc.searchByClass(id));
     }
 
     @PutMapping("/{id}")

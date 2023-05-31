@@ -53,4 +53,7 @@ public class Schedule
 
     @Column(name = "thoi_gian_su_dung", nullable = false)
     private Integer timeUse;
+
+    @Column(name = "trang_thai")
+    private boolean approved;
 }

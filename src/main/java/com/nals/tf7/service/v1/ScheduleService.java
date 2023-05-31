@@ -1,5 +1,6 @@
 package com.nals.tf7.service.v1;
 
+import com.nals.tf7.domain.ClassEntity;
 import com.nals.tf7.domain.Lab;
 import com.nals.tf7.domain.Schedule;
 import com.nals.tf7.repository.ScheduleRepository;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -19,11 +22,23 @@ public class ScheduleService
         super(repository);
     }
 
-    public Page<Schedule> searchByLab(final Lab lab, final PageRequest req) {
-        return getRepository().findAllByLab(lab, req);
+    public List<Schedule> searchByLab(final Lab lab) {
+        log.info("Search all schedule by Lab #{}", lab);
+        return getRepository().findAllByLab(lab);
+    }
+
+    public List<Schedule> searchByClass(final ClassEntity classEntity) {
+        log.info("Search all by class #{}", classEntity);
+        return getRepository().findAllByClassEntity(classEntity);
+    }
+
+    public List<Schedule> searchByLabAndClass(final Lab lab, final ClassEntity classEntity) {
+        log.info("Search all by lab #{} and class #{}", lab, classEntity);
+        return getRepository().findAllByLabAndClassEntity(lab, classEntity);
     }
 
     public Page<Schedule> searchSchedule(final PageRequest req) {
+        log.info("Search schedule by #{}", req);
         return getRepository().findAll(req);
     }
 }

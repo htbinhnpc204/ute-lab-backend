@@ -1,6 +1,7 @@
 package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.LabBloc;
+import com.nals.tf7.bloc.v1.ScheduleBloc;
 import com.nals.tf7.dto.v1.request.LabReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.helpers.JsonHelper;
@@ -25,10 +26,12 @@ public class LabController
     extends BaseController {
 
     private final LabBloc labBloc;
+    private final ScheduleBloc scheduleBloc;
 
-    public LabController(final Validator validator, final LabBloc labBloc) {
+    public LabController(final Validator validator, final LabBloc labBloc, final ScheduleBloc scheduleBloc) {
         super(validator);
         this.labBloc = labBloc;
+        this.scheduleBloc = scheduleBloc;
     }
 
     @PostMapping
@@ -45,6 +48,11 @@ public class LabController
     @GetMapping("/{id}")
     public ResponseEntity<?> getOneLab(@PathVariable final Long id) {
         return ok(labBloc.getById(id));
+    }
+
+    @GetMapping("/{id}/schedules")
+    public ResponseEntity<?> getAllSchedulesByLab(@PathVariable final Long id) {
+        return ok(scheduleBloc.searchByLab(id));
     }
 
     @PutMapping("/{id}")

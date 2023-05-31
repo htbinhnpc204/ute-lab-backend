@@ -17,4 +17,5 @@ import lombok.ToString;
 public class ScheduleSearchReq
     extends SearchReq {
     private Long labId;
+    private Long classId;
 }

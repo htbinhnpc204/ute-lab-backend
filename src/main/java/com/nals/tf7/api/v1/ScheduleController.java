@@ -2,7 +2,7 @@ package com.nals.tf7.api.v1;
 
 import com.nals.tf7.bloc.v1.ScheduleBloc;
 import com.nals.tf7.dto.v1.request.ScheduleReq;
-import com.nals.tf7.dto.v1.request.SearchReq;
+import com.nals.tf7.dto.v1.request.ScheduleSearchReq;
 import com.nals.tf7.helpers.JsonHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Validator;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/schedules")
@@ -38,13 +39,21 @@ public class ScheduleController
 
     @GetMapping
     public ResponseEntity<?> fetchAll(@RequestParam final Map<String, Object> req) {
-        var searchReq = JsonHelper.convertValue(req, SearchReq.class);
-        return ok(scheduleBloc.searchSchedule(searchReq));
+        var searchReq = JsonHelper.convertValue(req, ScheduleSearchReq.class);
+        return ok(scheduleBloc.searchByLabAndClass(Objects.requireNonNull(searchReq)
+                                                          .getLabId(),
+                                                   searchReq.getClassId()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable final Long id) {
         return ok(scheduleBloc.getById(id));
+    }
+
+    @GetMapping("/{id}/approve")
+    public ResponseEntity<?> approve(@PathVariable final Long id) {
+        scheduleBloc.approveSchedule(id);
+        return noContent();
     }
 
     @PutMapping("/{id}")
