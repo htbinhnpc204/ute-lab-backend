@@ -1,5 +1,7 @@
 package com.nals.tf7.bloc.v1;
 
+import com.nals.tf7.domain.ClassEntity;
+import com.nals.tf7.domain.Lab;
 import com.nals.tf7.dto.v1.request.ScheduleReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.response.ScheduleRes;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.nals.tf7.bloc.v1.ClassBloc.CLASS_NOT_FOUND;
@@ -62,7 +65,7 @@ public class ScheduleBloc {
 
     public List<ScheduleRes> searchByClass(final Long classId) {
         var classEntity = classService.getById(classId)
-                            .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+                                      .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
         return scheduleService.searchByClass(classEntity)
                               .stream()
                               .map(ScheduleMapper.INSTANCE::toRes)
@@ -70,11 +73,17 @@ public class ScheduleBloc {
     }
 
     public List<ScheduleRes> searchByLabAndClass(final Long labId, final Long classId) {
-        var lab = labService.getById(labId)
+        Lab lab = null;
+        ClassEntity classEntity = null;
+        if (Objects.nonNull(labId)) {
+            lab = labService.getById(labId)
                             .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
-
-        var classEntity = classService.getById(classId)
+        }
+        if (Objects.nonNull(classId)) {
+            classEntity = classService.getById(classId)
                                       .orElseThrow(() -> new NotFoundException(CLASS_NOT_FOUND));
+        }
+
         return scheduleService.searchByLabAndClass(lab, classEntity)
                               .stream()
                               .map(ScheduleMapper.INSTANCE::toRes)
