@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -35,6 +36,11 @@ public class ScheduleService
     public List<Schedule> searchByLabAndClass(final Lab lab, final ClassEntity classEntity, final PageRequest req) {
         log.info("Search all by lab #{} and class #{}", lab, classEntity);
         return getRepository().findAllByLabAndClassEntity(lab, classEntity, req);
+    }
+
+    public Page<Schedule> getAllByClassEntityIn(final Collection<ClassEntity> classEntities, final PageRequest req) {
+        log.info("Search all by classes in #{} and class #{}", classEntities, req);
+        return getRepository().findAllByClassEntityIn(classEntities, req);
     }
 
     public Page<Schedule> searchSchedule(final PageRequest req) {

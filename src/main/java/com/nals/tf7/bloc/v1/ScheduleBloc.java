@@ -104,6 +104,13 @@ public class ScheduleBloc {
                                   .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND)));
     }
 
+    public Page<ScheduleRes> getByUserId(final Long userId, final SearchReq req) {
+        var user = userService.getById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+        var classes = user.getClasses();
+        var pageReq = PaginationHelper.generatePageRequest(req);
+        return scheduleService.getAllByClassEntityIn(classes, pageReq).map(ScheduleMapper.INSTANCE::toRes);
+    }
+
     public void approveSchedule(final Long id) {
         var scheduleFound = scheduleService.getById(id)
                                            .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND));

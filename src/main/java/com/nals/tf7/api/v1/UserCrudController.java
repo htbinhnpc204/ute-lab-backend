@@ -1,5 +1,6 @@
 package com.nals.tf7.api.v1;
 
+import com.nals.tf7.bloc.v1.ScheduleBloc;
 import com.nals.tf7.bloc.v1.UserCrudBloc;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.request.UserReq;
@@ -26,10 +27,13 @@ public class UserCrudController
     extends BaseController {
 
     private final UserCrudBloc userCrudBloc;
+    private final ScheduleBloc scheduleBloc;
 
-    public UserCrudController(final Validator validator, final UserCrudBloc userCrudBloc) {
+    public UserCrudController(final Validator validator, final UserCrudBloc userCrudBloc,
+                              final ScheduleBloc scheduleBloc) {
         super(validator);
         this.userCrudBloc = userCrudBloc;
+        this.scheduleBloc = scheduleBloc;
     }
 
     @PostMapping
@@ -46,6 +50,12 @@ public class UserCrudController
     @GetMapping("/{id}")
     public ResponseEntity<?> getOneById(@PathVariable final Long id) {
         return ok(userCrudBloc.getOneById(id));
+    }
+
+    @GetMapping("/{id}/schedules")
+    public ResponseEntity<?> getAllSchedules(@PathVariable final Long id, @RequestParam final Map<String, Object> req) {
+        var searchReq = JsonHelper.convertValue(req, SearchReq.class);
+        return ok(scheduleBloc.getByUserId(id, searchReq));
     }
 
     @GetMapping
