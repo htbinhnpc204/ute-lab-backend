@@ -111,6 +111,7 @@ public class ScheduleBloc {
         return scheduleService.getAllByClassEntityIn(classes, pageReq).map(ScheduleMapper.INSTANCE::toRes);
     }
 
+    @Transactional
     public void approveSchedule(final Long id) {
         var scheduleFound = scheduleService.getById(id)
                                            .orElseThrow(() -> new NotFoundException(SCHEDULE_NOT_FOUND));
