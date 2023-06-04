@@ -26,4 +26,5 @@ public class ScheduleRes {
     private ProfileRes register;
     private Instant timeStart;
     private Integer timeUse;
+    private boolean approved;
 }
