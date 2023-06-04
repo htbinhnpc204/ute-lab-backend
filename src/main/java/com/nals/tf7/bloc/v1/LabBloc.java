@@ -48,9 +48,10 @@ public class LabBloc {
         return labService.searchLabs(searchReq.getKeyword(), pageable).map(LabMapper.INSTANCE::toLabRes);
     }
 
-    public Lab getById(final Long id) {
-        return labService.getById(id)
-                         .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
+    public LabRes getById(final Long id) {
+        var lab = labService.getById(id)
+                            .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND));
+        return LabMapper.INSTANCE.toLabRes(lab);
     }
 
     @Transactional
