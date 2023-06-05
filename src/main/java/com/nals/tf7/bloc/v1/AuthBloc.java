@@ -123,6 +123,7 @@ public class AuthBloc {
     @Transactional
     public String forgotPassword(final ForgotPasswordReq req) {
         String studentName;
+        log.info(req.getStudentId());
         try {
             studentName = ExcelHelper.getFullNameByStudentId(CLASS_MEMBER_XLSX, req.getStudentId());
             log.info(studentName);
