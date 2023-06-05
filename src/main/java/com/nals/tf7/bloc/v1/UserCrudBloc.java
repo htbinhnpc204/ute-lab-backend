@@ -61,7 +61,7 @@ public class UserCrudBloc {
         user.setActivated(true);
         user.setRole(roleService.findByName(req.getRole())
                                 .orElseThrow(() -> new NotFoundException(ROLE_NOT_FOUND)));
-        user.setPassword(encoder.encode("password"));
+        user.setPassword(encoder.encode("123"));
         return userService.save(user).getId();
     }
 
