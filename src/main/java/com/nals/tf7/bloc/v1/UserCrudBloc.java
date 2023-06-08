@@ -98,6 +98,8 @@ public class UserCrudBloc {
         user.setAddress(req.getAddress());
         user.setGender(req.getGender());
         user.setDob(req.getDob());
+        user.setRole(roleService.findByName(req.getRole())
+                                .orElseThrow(() -> new NotFoundException(ROLE_NOT_FOUND)));
         if (StringHelper.isNotBlank(handleFileUpload(req))) {
             user.setAvatar(handleFileUpload(req));
         }
