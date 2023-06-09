@@ -31,6 +31,7 @@ public class ComputerBloc {
     @Transactional
     public Computer createComputer(final ComputerReq req) {
         var computer = ComputerMapper.INSTANCE.toEntity(req);
+        computer.setActivate(true);
         computer.setLab(labService.getById(req.getLabId())
                                   .orElseThrow(() -> new NotFoundException(LAB_NOT_FOUND)));
         return computerService.save(computer);
