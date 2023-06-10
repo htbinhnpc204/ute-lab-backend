@@ -25,7 +25,7 @@ public class ComputerErrorController
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllByClass(@PathVariable final Long computerId) {
+    public ResponseEntity<?> getAllByComputer(@PathVariable final Long computerId) {
         return ok(computerErrorBloc.getAllErrorsByComputer(computerId));
     }
 

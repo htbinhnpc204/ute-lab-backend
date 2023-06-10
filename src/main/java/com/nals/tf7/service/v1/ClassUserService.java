@@ -3,6 +3,7 @@ package com.nals.tf7.service.v1;
 import com.nals.tf7.domain.ClassEntity;
 import com.nals.tf7.domain.ClassUser;
 import com.nals.tf7.domain.User;
+import com.nals.tf7.enums.ClassUserRole;
 import com.nals.tf7.repository.ClassUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,5 +30,10 @@ public class ClassUserService
     public Optional<ClassUser> findByClassAndUser(final ClassEntity classEntity, final User user) {
         log.info("Find class user by class id #{} and user id #{}", classEntity, user);
         return getRepository().findByClassEntityAndUser(classEntity, user);
+    }
+
+    public Optional<ClassUser> findByClassAndRole(final ClassEntity classEntity, final ClassUserRole role) {
+        log.info("Find class user by class #{} and role #{}", classEntity, role);
+        return getRepository().findByClassEntityAndRole(classEntity, role);
     }
 }
