@@ -1,6 +1,7 @@
 package com.nals.tf7.bloc.v1;
 
 import com.nals.tf7.domain.Lab;
+import com.nals.tf7.domain.User;
 import com.nals.tf7.dto.v1.request.LabReq;
 import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.response.LabRes;
@@ -43,10 +44,7 @@ public class LabBloc {
         var user = userService.getById(labReq.getManager())
                               .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 
-        if (!user.getRole().getName().equalsIgnoreCase("ROLE_QUAN_TRI")
-            && !user.getRole().getName().equalsIgnoreCase("ROLE_GIAO_VIEN")) {
-            throw new ValidatorException("User doesn't have right role");
-        }
+        validateUser(user);
 
         lab.setManager(user);
         return labService.save(lab);
@@ -71,9 +69,12 @@ public class LabBloc {
         if (StringHelper.isNotBlank(handleFileUpload(labReq))) {
             labFound.setAvatar(handleFileUpload(labReq));
         }
+
         labFound.setDescription(labReq.getDescription());
-        labFound.setManager(userService.getById(labReq.getManager())
-                                       .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
+        var user = userService.getById(labReq.getManager())
+                   .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+        validateUser(user);
+        labFound.setManager(user);
         return LabMapper.INSTANCE.toLabRes(labService.save(labFound));
     }
 
@@ -89,6 +90,13 @@ public class LabBloc {
             }
         }
         return fileName;
+    }
+
+    private void validateUser(final User user) {
+        if (!user.getRole().getName().equalsIgnoreCase("ROLE_QUAN_TRI")
+            && !user.getRole().getName().equalsIgnoreCase("ROLE_GIAO_VIEN")) {
+            throw new ValidatorException("User doesn't have right role");
+        }
     }
 
     @Transactional
