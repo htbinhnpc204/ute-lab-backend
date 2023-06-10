@@ -6,6 +6,7 @@ import com.nals.tf7.dto.v1.request.SearchReq;
 import com.nals.tf7.dto.v1.response.LabRes;
 import com.nals.tf7.errors.FileException;
 import com.nals.tf7.errors.NotFoundException;
+import com.nals.tf7.errors.ValidatorException;
 import com.nals.tf7.helpers.PaginationHelper;
 import com.nals.tf7.helpers.StringHelper;
 import com.nals.tf7.mapper.v1.LabMapper;
@@ -38,8 +39,16 @@ public class LabBloc {
         if (StringHelper.isNotBlank(handleFileUpload(labReq))) {
             lab.setAvatar(handleFileUpload(labReq));
         }
-        lab.setManager(userService.getById(labReq.getManager())
-                                  .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
+
+        var user = userService.getById(labReq.getManager())
+                              .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
+        if (!user.getRole().getName().equalsIgnoreCase("ROLE_QUAN_TRI")
+            && !user.getRole().getName().equalsIgnoreCase("ROLE_GIAO_VIEN")) {
+            throw new ValidatorException("User doesn't have right role");
+        }
+
+        lab.setManager(user);
         return labService.save(lab);
     }
 
